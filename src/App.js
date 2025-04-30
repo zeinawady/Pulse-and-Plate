@@ -1,14 +1,23 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Home from './components/Home/Home'
+import Footer from './components/Footer/Footer';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header/Header';
 
 function App() {
   return (
-    <div className="text-center mt-5">
-      <h1 className="text-primary">Hello React + Bootstrap!</h1>
-      <button className="btn btn-success">
-        <i className="fas fa-check-circle"></i> Submit
-      </button>
+    <div>
+      <Header />
+
     </div>
+    // <Router>
+      
+    //   <Routes>
+    //     <Route path="/" element={<Home />} />
+    //     <Route path="/footer" element={<Footer />} />
+    //   </Routes>
+    // </Router>
   );
 }
 
