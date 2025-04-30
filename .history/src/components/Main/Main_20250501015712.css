@@ -46,9 +46,9 @@
 
 .custom-btn {
     background-color: var(--primary-color) !important;
-    --bs-btn-border-color: var(--primary-color) !important;
-    --bs-btn-hover-border-color: var(--primary-color) !important;
-    --bs-btn-hover-bg: var(--primary-color) !important;
+    --bs-btn-border-color: var(--secondary-color) !important;
+    --bs-btn-hover-border-color: var(--secondary-color) !important;
+    --bs-btn-hover-bg: var(--secondary-color) !important;
     font-weight: 600 !important;
 }
 

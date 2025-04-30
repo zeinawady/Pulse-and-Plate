@@ -17,6 +17,6 @@ library.add(
     faHome,
     faEnvelope,
     faSearch,
-    faConciergeBell,
+    fabellconcierge,
     // Add any other icons you need here
 );

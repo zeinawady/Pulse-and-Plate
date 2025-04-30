@@ -27,11 +27,6 @@ export default function About() {
             <p>Best Quality Food </p>
               <p>Our talented chefs craft each dish precision sourcing</p>
             </div>
-            <div className="icon">
-            <FontAwesomeIcon icon="concierge-bell" />
-            <p>Experience Chefs</p>
-              <p>Our talented chefs craft each dish precision sourcing</p>
-            </div>
           </div>
         </div>
       </Container>

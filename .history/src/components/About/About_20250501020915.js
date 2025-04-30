@@ -23,13 +23,13 @@ export default function About() {
           </div>
           <div className="icons">
             <div className="icon">
-            <FontAwesomeIcon icon="concierge-bell" />
+            <FontAwesomeIcon icon={['far', 'bell-concierge']" />
             <p>Best Quality Food </p>
               <p>Our talented chefs craft each dish precision sourcing</p>
             </div>
             <div className="icon">
-            <FontAwesomeIcon icon="concierge-bell" />
-            <p>Experience Chefs</p>
+            <FontAwesomeIcon icon="['far', 'bell-concierge']" />
+            <p>Best Quality Food </p>
               <p>Our talented chefs craft each dish precision sourcing</p>
             </div>
           </div>

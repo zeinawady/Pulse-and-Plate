@@ -2,7 +2,6 @@ import "../../App";
 import "./About.css";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function About() {
   return (
@@ -22,14 +21,9 @@ export default function About() {
             <Button className="custom-btn">Explore Popular Menu</Button>
           </div>
           <div className="icons">
-            <div className="icon">
-            <FontAwesomeIcon icon="concierge-bell" />
-            <p>Best Quality Food </p>
-              <p>Our talented chefs craft each dish precision sourcing</p>
-            </div>
-            <div className="icon">
-            <FontAwesomeIcon icon="concierge-bell" />
-            <p>Experience Chefs</p>
+            <div>
+              <FontAwesomeIcon icon="fa-regular fa-bell-concierge" />
+              <p>Best Quality Food </p>
               <p>Our talented chefs craft each dish precision sourcing</p>
             </div>
           </div>

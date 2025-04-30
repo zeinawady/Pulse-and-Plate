@@ -6,7 +6,7 @@ import {
     faHome,
     faEnvelope,
     faSearch,
-    faConciergeBell,
+    ,fa-bell-concierge
     // Add any other icons you need here
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,6 +17,5 @@ library.add(
     faHome,
     faEnvelope,
     faSearch,
-    faConciergeBell,
     // Add any other icons you need here
 );
