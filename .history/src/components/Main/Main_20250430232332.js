@@ -10,7 +10,7 @@ export default function Main() {
         <section className='section'>
             <div className="title">
             <h1 className='main-title'>FRESH FOOD</h1>
-            <h1>WITH GREAT TASTE</h1>
+            <h1> WITH GREAT TASTE</h1>
             </div>
       
 
