@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';  // Import the
 
 export default function Header() {
     return (
-        <Navbar expand="md" className="fixed-top">
+        <Navbar expand="md" className="sticky-top">
             <Container fluid="md">
                 {/* Logo */}
                 <Navbar.Brand href="#home">
