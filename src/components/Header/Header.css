@@ -1,9 +1,8 @@
 .navbar {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* background-color: rgba(254, 250, 225, 0.3);
-     */
+    /* background-color: rgba(254, 250, 225, 0.6); */
+    padding: 0;
      background-color: var(--light-color);
-     z-index: 100;
 }
 
 .navbar-nav .nav-link,
