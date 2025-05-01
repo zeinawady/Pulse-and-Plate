@@ -12,9 +12,7 @@ function App() {
   return (
     <div>
       <Header />
-      <Main />
-      <WhyChooseUs />
-      <About />
+      <Home/>
       
       <Footer />
     </div>
