@@ -22,7 +22,7 @@ export default function Footer() {
                     <a href="#">lorem</a>
                 </div>
                 <div>
-                    <p>Join Our Newsletter Now </p>
+                    <p>Jodi Our Newsletter Now </p>
                     <p>Get E-mail updates about latest shop and special offers </p>
                 </div>
             </div>

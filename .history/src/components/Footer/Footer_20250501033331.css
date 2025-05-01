@@ -12,13 +12,9 @@ footer{
   width: 30%;
 
 }
-.wrapper-footer .info h5{
-    color: var(--primary-color);
-    font-weight: 700;
-}
+
 .links>p:first-child{
 font-weight: 700;
-color: var(--primary-color);
 
 }
 .links{

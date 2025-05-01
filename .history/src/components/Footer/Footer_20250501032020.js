@@ -11,19 +11,15 @@ export default function Footer() {
         <footer>
             <Container fluid="md">
             <div className="wrapper-footer">
-                <div className="info">
+                <div>
                     <h5>Pulse & Plate</h5>
                     <p>Healthy Food Specialties can be described as a company or service focusing on nutritious, high-quality food. </p>
                 </div>
-                <div className="links">
-                    <p >Useful Links</p>
+                <div>
+                    <p>Useful Links</p>
                     <a href="#">About Us</a>
                     <a href="#">lorem</a>
                     <a href="#">lorem</a>
-                </div>
-                <div>
-                    <p>Join Our Newsletter Now </p>
-                    <p>Get E-mail updates about latest shop and special offers </p>
                 </div>
             </div>
             </Container>

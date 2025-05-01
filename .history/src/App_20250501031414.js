@@ -15,8 +15,7 @@ function App() {
       <Main />
       <WhyChooseUs />
       <About />
-      
-      <Footer />
+      <Footer
     </div>
     // <Router>
       
