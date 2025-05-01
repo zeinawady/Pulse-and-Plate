@@ -23,7 +23,7 @@ library.add(
     faConciergeBell,
     faPercent,
     faTruckFast,
-    faCarrot,
+    faarrot
 
     // Add any other icons you need here
 );

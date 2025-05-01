@@ -9,7 +9,7 @@ import {
     faConciergeBell,
      faPercent,
      faTruckFast,
-     faCarrot,
+     fa-carrot
     // Add any other icons you need here
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,7 +23,5 @@ library.add(
     faConciergeBell,
     faPercent,
     faTruckFast,
-    faCarrot,
-
     // Add any other icons you need here
 );

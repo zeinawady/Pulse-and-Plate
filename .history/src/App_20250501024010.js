@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import Home from './components/Home/Home'
 import Footer from './components/Footer/Footer';
-import WhyChooseUs from './components/WhyChooseUs/WhyChooseUs';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header/Header';
@@ -12,10 +11,10 @@ function App() {
   return (
     <div>
       <Header />
+      <
       <Main />
-      <WhyChooseUs />
+
       <About />
-      
     </div>
     // <Router>
       

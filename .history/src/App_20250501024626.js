@@ -12,10 +12,10 @@ function App() {
   return (
     <div>
       <Header />
+      why
       <Main />
-      <WhyChooseUs />
+
       <About />
-      
     </div>
     // <Router>
       

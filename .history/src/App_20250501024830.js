@@ -14,8 +14,8 @@ function App() {
       <Header />
       <Main />
       <WhyChooseUs />
+
       <About />
-      
     </div>
     // <Router>
       

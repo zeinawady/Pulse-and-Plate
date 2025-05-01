@@ -1,0 +1,13 @@
+
+.whyChooseUS{
+    padding-block-start: var(--sections-padding);
+    scroll-padding-block-end: var(--sections-padding);
+}
+.wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.box{
+    background-color: #90EE90;
+}

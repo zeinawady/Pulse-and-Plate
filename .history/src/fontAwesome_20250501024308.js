@@ -8,8 +8,6 @@ import {
     faSearch,
     faConciergeBell,
      faPercent,
-     faTruckFast,
-     faCarrot,
     // Add any other icons you need here
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,9 +19,6 @@ library.add(
     faEnvelope,
     faSearch,
     faConciergeBell,
-    faPercent,
-    faTruckFast,
-    faCarrot,
-
+    faPercent
     // Add any other icons you need here
 );
