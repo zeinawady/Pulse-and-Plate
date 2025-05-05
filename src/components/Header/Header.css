@@ -2,7 +2,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     /* background-color: rgba(254, 250, 225, 0.6); */
     padding: 0;
-     background-color: var(--light-color);
+     background-color: var(--secondary-light-color);
+     padding: 0 !important;
+}
+.navbar img{
+    width: 60px;
+    height: 60px;
 }
 
 .navbar-nav .nav-link,

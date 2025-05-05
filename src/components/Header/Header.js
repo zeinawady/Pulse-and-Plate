@@ -18,7 +18,7 @@ export default function Header() {
                 {/* Logo */}
                 <Navbar.Brand href="#home">
                     <img
-                        src="images/LogoImage-transparent.png"
+                        src="images/logo-trans.png"
                         width="40"
                         height="40"
                         className="d-inline-block align-top"

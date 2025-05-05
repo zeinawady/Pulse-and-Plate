@@ -6,7 +6,8 @@
 :root {
   --primary-color: #6b9f00;
   --secondary-color: #ef9025;
-  --light-color: hsl(47, 66%, 82%);
+  --light-color: #efe2b3;
+  --secondary-light-color: #FDFAE0;
   --text-color: #000000;
   --font-family: "Lato", sans-serif;
   --sections-padding: 5rem;
