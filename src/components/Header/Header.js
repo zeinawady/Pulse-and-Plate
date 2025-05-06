@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { NavLink } from 'react-router-dom';
 // font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';  // Import the FontAwesomeIcon component
 
@@ -29,18 +30,17 @@ export default function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto ms-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        
-                        <NavDropdown title="Recipes" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                        <Nav.Link as={NavLink} to="/home" className="nav-link">Home</Nav.Link>
+                        <NavDropdown
+                            title={<NavLink to="/menu" className="dropdown-link">Menu</NavLink>}
+                            id="basic-nav-dropdown">
+                            <NavDropdown.Item as={NavLink} to="/menu/salads">Salads</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/menu/grilled">Grilled</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/menu/wraps">Wraps</NavDropdown.Item>
                         </NavDropdown>
 
-                        <Nav.Link href="#link">About</Nav.Link>
-                        <Nav.Link href="#link">Contact Us</Nav.Link>
+                        <Nav.Link as={NavLink} to="/about" className="nav-link">About</Nav.Link>
+                        <Nav.Link as={NavLink} to="/contact" className="nav-link">Contact Us</Nav.Link>
                     </Nav>
 
                     <div className='icons'>
