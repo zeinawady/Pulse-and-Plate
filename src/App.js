@@ -8,6 +8,7 @@ import {Routes, Route, Router } from 'react-router-dom';
 import Header from './components/Header/Header';
 import About from './components/About/About';
 import Menu from './components/Menu/Menu';
+import ContactUs from './components/ContactUs/ContactUs';
 
 function App() {
   return (
@@ -20,9 +21,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/menu" element={<Menu />} />
-        <Route path="/menu/salads" element={<Menu />} />
-        <Route path="/menu/grilled" element={<Menu />} />
-        <Route path="/menu/wraps" element={<Menu />} />
+        <Route path="/contactus" element={<ContactUs />} />
       </Routes>
       
       <Footer />

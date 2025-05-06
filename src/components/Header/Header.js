@@ -31,16 +31,9 @@ export default function Header() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto ms-auto">
                         <Nav.Link as={NavLink} to="/home" className="nav-link">Home</Nav.Link>
-                        <NavDropdown
-                            title={<NavLink to="/menu" className="dropdown-link">Menu</NavLink>}
-                            id="basic-nav-dropdown">
-                            <NavDropdown.Item as={NavLink} to="/menu/salads">Salads</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/menu/grilled">Grilled</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/menu/wraps">Wraps</NavDropdown.Item>
-                        </NavDropdown>
-
+                        <Nav.Link as={NavLink} to="/menu" className="nav-link">Menu</Nav.Link>
                         <Nav.Link as={NavLink} to="/about" className="nav-link">About</Nav.Link>
-                        <Nav.Link as={NavLink} to="/contact" className="nav-link">Contact Us</Nav.Link>
+                        <Nav.Link as={NavLink} to="/contactus" className="nav-link">Contact Us</Nav.Link>
                     </Nav>
 
                     <div className='icons'>
