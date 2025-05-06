@@ -1,5 +1,7 @@
 const mongoose=require('mongoose')
+const User=require('./models/user.JS')
 const Item=require('./models/item.JS')
+const Order=require('./models/order.JS')
 const Admin =require('./models/Admin.JS')
 const Menu=require('./models/Menu.JS')
 
@@ -15,8 +17,23 @@ mongoose.connect(
 console.log("connected to the mongo atlas server is failed ");
 })
 
+
+
+const newUser = new User({
+  Name: 'Habiba2 Adel',
+  email: 'batmanin2aman@gmail.com',
+  password: '7asbe_allah2_fe_elkolea',
+});
+//now we need to save this user data into the chuseter database atlas
+newUser.save()
+  .then(() => console.log('User created successfully'))
+  .catch(err => console.log('Error creating user:', err));
+
+
+
+
 const newItem = new Item({
-    name: 'Salad fruits',
+    name: 'Salad fruits2',
     photo: 'http://example.com/salad.jpg',
     description: 'Healthy green salad',
     calories: 200,
@@ -29,10 +46,23 @@ const newItem = new Item({
 
    
 
+    const newOrder = new Order({
+      user: newUser._id,  // Assuming this is the ID of the user inserted above
+      item: newItem._id,  // Assuming this is the ID of the item inserted above
+      happenedAt: new Date(),
+    });
+    
+    newOrder.save()
+      .then(() => console.log('Order created successfully'))
+      .catch(err => console.log('Error creating order:', err));
+
+
+
+
 const newAdmin = new Admin({
-  Name: 'esraa4 ahmed',
-  email: 'batmanin4aman@gmail.com',
-  password: '7asbe_allah4_fe_elkolea11',
+  Name: 'esraa5 ahmed',
+  email: 'batmanin5aman@gmail.com',
+  password: '7asbe_allah5_fe_elkolea11',
   role:"Admin"
 });
 
