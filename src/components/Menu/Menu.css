@@ -1,0 +1,254 @@
+/* General Styling for Menu */
+.menu-container {
+  padding: 40px;
+  background-color: var(--background-color);
+  font-family: var(--font-family);
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 10px; /* Added rounded corners to the container */
+}
+
+/* Header Styling */
+.menu-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  margin-bottom: 40px;
+  position: relative;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.menu-header h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--primary-color);
+  position: relative;
+  margin-bottom: 10px;
+  letter-spacing: 2px; /* Slight spacing between letters for more elegance */
+}
+
+/* Categories Section Styling */
+.categories-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Category Title Styling */
+.category-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  padding: 12px 20px;
+  margin: 10px;
+  text-transform: capitalize;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Active Category Underline */
+.category-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: transparent;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.category-title.active {
+  color: var(--secondary-color);
+}
+
+.category-title.active::after {
+  width: 100%;
+  background-color: var(--secondary-color);
+}
+
+/* Hover Effect */
+.category-title:hover {
+  color: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+/* Meals Grid Styling */
+.meals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-items: center;
+  margin-top: 20px;
+  grid-template-rows: auto;
+}
+
+/* Meal Card Styling */
+.meal-card {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* Meal Card Hover Effect */
+.meal-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Meal Image */
+.meal-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Meal Name and Price */
+.meal-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-top: 10px;
+}
+
+.meal-price {
+  font-size: 14px;
+  color: var(--secondary-color);
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Meal Card Overlay (for details button) */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  border-radius: 8px;
+}
+
+.view-details {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.view-details:hover {
+  background-color: var(--primary-color);
+}
+
+/* Show Overlay on Hover */
+.meal-card:hover .overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Button Styling */
+.add-to-cart {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.add-to-cart:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .meal-card {
+    width: 180px;
+    padding: 12px;
+  }
+
+  .meal-name {
+    font-size: 1rem;
+  }
+
+  .meal-price {
+    font-size: 1.1rem;
+  }
+
+  .meals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Categories Container */
+.categories-container {
+  margin-top: 50px;
+  padding: 20px;
+  border-top: 2px solid var(--primary-color);
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+/* Category Title Styling */
+.category-title {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 12px 20px;
+  margin: 10px;
+  text-transform: capitalize;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease-in-out;
+}
+
+.category-title.active {
+  color: var(--primary-color);
+}
+
+/* Active Category Underline */
+.category-title.active::after {
+  width: 100%;
+  background-color: var(--primary-color);
+}
+
+/* Hover Effect for Category Title */
+.category-title:hover {
+  color: var(--primary-color);
+  transform: scale(1.05);
+}
