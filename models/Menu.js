@@ -11,11 +11,15 @@ const MenuSchema = new schema({
       type: String,
       default: 'Pulse and Plate Menu'
     },
-    item:
-    {
-    type:mongoose.Schema.ObjectId,
-     ref: 'item'
-    }
+    item: [
+      {
+        type: mongoose.Schema.ObjectId,
+        //  It's Item not item!!!!!!!!!!!
+        // ref: "item", THIS ISSSS WORNGGGG
+        ref: "Item,",
+      },
+    ]
+  
   });
   
   module.exports = mongoose.model('Menu', MenuSchema);
