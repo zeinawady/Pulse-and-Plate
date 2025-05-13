@@ -7,7 +7,7 @@
 - update specific product
 
 */
-
+console.log("routes/product.js file is being executed");
 const express = require('express')
 const route = express.Router()
 const Item = require('../models/item')
@@ -33,16 +33,16 @@ route.delete('/:productName', async (req, res) => {
 })
 
 route.post('/add', async (req, res) => {
-
+    console.log("POST /api/product/add route handler reached"); // <--- ADD THIS LINE
+    console.log("Request body:", req.body); // <--- ADD THIS LINE TO SEE PARSED BODY
     const { name, price, description, image, calories, category } = req.body;
 
-    if (!req.user || req.user.role !== "admin") {
+    /*if (!req.user || req.user.role !== "admin") {
         return res.status(403).json({ message: "Forbidden: Only admins can add products." });
-    }
+    }*/
 
     try {
-        if (!name || !price || !description || !image || !calories || !category) { return res.status(400).json({ message: "Complete the product missing info" }); }
-
+        if (!name || !price || !image) { return res.status(400).json({ message: "Complete the product missing info" }); }
 
         const find = await Item.findOne({ name: name });
 
@@ -51,12 +51,13 @@ route.post('/add', async (req, res) => {
         }
 
         const newItem = new Item({
-            name,
-            price,
-            description,
-            image,
-            calories,
-            category
+            name: name,
+            photo: image,
+            price: price,
+            //description,
+            //calories,
+            //category,
+            //Quantity
         })
 
         await newItem.save();
@@ -124,12 +125,6 @@ route.put('/update/:productName', async (req, res) => {
 
 });
 
-
-
-
-
-
-
 //to can use this route file in the server.js file
-module.exports = router;
+module.exports = route;
 

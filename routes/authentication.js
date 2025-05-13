@@ -2,30 +2,27 @@ const express = require("express")
 const router = express.Router()
 const jwt = require('jsonwebtoken');
 
-const User = require("../user")
+const User = require("../models/user");
 
 const JWT_SECRET = "your_jwt_secret";
 
-router.post('/register' ,async (req , res) =>{
-    try
-    {
-        const { id , Name, email, password } = req.body
-        
-        const existingUser = await User.findOne({ $or: [{ email }, { id }] })
+router.post('/register', async (req, res) => {
+  try {
+    const { id, Name, email, password } = req.body
 
-        if(existingUser)
-        {
-            res.status(400).json({ error: 'User already exists with this email or id.' })
-        }
-        const user = new User( { id , Name, email, password })
-        await user.save()
-        res.status(201).json({ message: 'User registered successfully.' });
+    const existingUser = await User.findOne({ $or: [{ email }, { id }] })
+
+    if (existingUser) {
+      res.status(400).json({ error: 'User already exists with this email or id.' })
     }
-    catch (err) 
-    {
+    const user = new User({ id, Name, email, password })
+    await user.save()
+    res.status(201).json({ message: 'User registered successfully.' });
+  }
+  catch (err) {
     res.status(400).json({ error: 'Registration failed', details: err.message });
-    }
-    
+  }
+
 })
 
 router.post('/login', async (req, res) => {

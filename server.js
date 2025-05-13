@@ -1,4 +1,4 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 // const User=require('./user')
 // const Item=require('./models/item.JS')
 // const Order=require('./models/order.JS')
@@ -10,6 +10,9 @@ const express = require("express")
 
 const authRoutes = require('./routes/authentication')
 const userRoutes = require('./routes/user')
+console.log("Registering Product routes at /api/product");
+const Product = require('./routes/product');
+
 // const adminRoutes = require('./routes/admin')
 
 
@@ -50,6 +53,9 @@ console.log("connected to the mongo atlas server is failed ");
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/product', Product);
+console.log("Product routes loaded in server.js:", Product);
+
 // app.use('/api/admin', adminRoutes);
 
 
