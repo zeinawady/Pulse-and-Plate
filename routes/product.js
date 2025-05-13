@@ -11,6 +11,7 @@ console.log("routes/product.js file is being executed");
 const express = require('express')
 const route = express.Router()
 const Item = require('../models/item')
+const Menu = require('../models/Menu');
 
 //first lets handle the delete product logic function 
 
@@ -32,98 +33,154 @@ route.delete('/:productName', async (req, res) => {
 
 })
 
-route.post('/add', async (req, res) => {
-    console.log("POST /api/product/add route handler reached"); // <--- ADD THIS LINE
-    console.log("Request body:", req.body); // <--- ADD THIS LINE TO SEE PARSED BODY
-    const { name, price, description, image, calories, category } = req.body;
-
-    /*if (!req.user || req.user.role !== "admin") {
-        return res.status(403).json({ message: "Forbidden: Only admins can add products." });
-    }*/
-
+route.post('/add-item', async (req, res) => {
     try {
-        if (!name || !price || !image) { return res.status(400).json({ message: "Complete the product missing info" }); }
+        const { name, price, image, description, calories, category } = req.body;
 
-        const find = await Item.findOne({ name: name });
+        // Basic validation
+        if (!name || !price || !image || !category) {
+            return res.status(400).json({ message: "Complete the product missing info" });
+        }
 
-        if (find) {
+        // Check if product already exists
+        const existingProduct = await Item.findOne({ name });
+
+        if (existingProduct) {
             return res.status(409).json({ message: "Product already added" });
         }
 
+        // Create new item
         const newItem = new Item({
-            name: name,
+            name,
             photo: image,
-            price: price,
-            //description,
-            //calories,
-            //category,
-            //Quantity
-        })
+            price,
+            description,
+            calories,
+            category
+        });
 
         await newItem.save();
-        res.status(201).json({ message: "product added successfully" });
+
+        // الآن بعد إضافة الـ Item، نقوم بإضافته إلى الـ Menu حسب الفئة
+        const menu = await Menu.findOne();
+        if (!menu) {
+            return res.status(404).json({ message: 'Menu not found' });
+        }
+
+        // البحث عن الـ Category المناسبة
+        let categoryFound = menu.categories.find(cat => cat.title === category);
+
+        if (!categoryFound) {
+            // إذا لم تكن الفئة موجودة، نضيفها
+            categoryFound = {
+                title: category,
+                meals: [newItem._id]
+            };
+            menu.categories.push(categoryFound);
+        } else {
+            // إذا كانت الفئة موجودة، نضيف المنتج إلى الفئة
+            categoryFound.meals.push(newItem._id);
+        }
+
+        await menu.save();
+
+        res.status(201).json({
+            message: "Product added successfully and categorized",
+            data: newItem
+        });
+
     } catch (error) {
-        return res.status(500).json({ message: "error", error: error.message })
-    };
-
-
+        res.status(500).json({ message: "Error adding item", error: error.message });
+    }
 });
+
 
 route.get('/list', async (req, res) => {
-
-    if (!req.user || req.user.role !== "admin") {
-        return res.status(403).json({ message: "Forbidden: Only admins can add products." });
-    }
-
     try {
-        const products = await Item.find();
-
-        if (products.length == 0) {
-            return res.status(404).json({ message: "No products found" });
+        const menu = await Menu.findOne().populate('categories.products');
+        if (!menu) {
+            return res.status(404).json({ message: 'Menu not found' });
         }
 
+        const formatted = menu.categories.map(category => ({
+            category: category.name,
+            products: category.products.map(p => ({
+                name: p.name,
+                photo: p.photo,
+                price: p.price
+            }))
+        }));
+
         res.status(200).json({
-            message: "products found",
-            data: products
-
+            message: 'Products listed by category',
+            menu: formatted
         });
-    } catch (error) {
-        return res.status(500).json({ message: "error", error: error.message });
-    }
 
+    } catch (error) {
+        return res.status(500).json({ message: "Error listing products", error: error.message });
+    }
 });
+
+
 
 route.put('/update/:productName', async (req, res) => {
-
     try {
-        const productName = req.params.productName;
-        if (!productName)//it means empty
-        { return res.status(400).json({ message: "Product name is required." }); }
+        const oldProductName = req.params.productName;
+        const updates = req.body;
 
-        const product = await Item.findOneAndUpdate(
-            { name: productName },
-            req.body, // نادى البيانات اللي هتتعدل
-            { new: true } //to see after update
-        );
 
-        if (!product) {
-            return res.status(404).json({ message: `Product with name "${productName}" not found.` });
+        const oldProduct = await Item.findOne({ name: oldProductName });
+        if (!oldProduct) {
+            return res.status(404).json({ message: `Product "${oldProductName}" not found.` });
         }
 
+        const updatedProduct = await Item.findOneAndUpdate(
+            { name: oldProductName },
+            updates,
+            { new: true }
+        );
+
+
+        const menu = await Menu.findOne();
+        if (!menu) {
+            return res.status(404).json({ message: 'Menu not found.' });
+        }
+
+
+        const oldCategory = menu.categories.find(cat => cat.name === oldProduct.category);
+        if (oldCategory) {
+            oldCategory.products = oldCategory.products.filter(
+                productId => productId.toString() !== oldProduct._id.toString()
+            );
+        }
+
+
+        const newCategory = menu.categories.find(cat => cat.name === updatedProduct.category);
+        if (newCategory) {
+            if (!newCategory.products.includes(updatedProduct._id)) {
+                newCategory.products.push(updatedProduct._id);
+            }
+        } else {
+
+
+            menu.categories.push({
+                name: updatedProduct.category,
+                products: [updatedProduct._id]
+            });
+        }
+
+        await menu.save();
+
         res.status(200).json({
-            message: `Product "${productName}" updated successfully.`,
-            product
+            message: `Product "${oldProductName}" updated successfully.`,
+            product: updatedProduct
         });
 
-
     } catch (error) {
-        return res.status(500).json({ message: "error", error: error.message });
+        return res.status(500).json({ message: "Error updating product", error: error.message });
     }
-
-
-
-
 });
+
 
 //to can use this route file in the server.js file
 module.exports = route;

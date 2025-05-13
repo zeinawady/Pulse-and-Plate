@@ -54,7 +54,7 @@ console.log("connected to the mongo atlas server is failed ");
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/product', Product);
-console.log("Product routes loaded in server.js:", Product);
+
 
 // app.use('/api/admin', adminRoutes);
 
