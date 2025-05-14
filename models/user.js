@@ -18,10 +18,15 @@ const userSchema = new schema ({
     default: value,         // (Optional) default value
   
   */
+id:{
+type:Number,
+unique:true
+},
 Name:{
 type:String,
 required:true,
-unique:true
+required:true,
+unique:false
 },
 email:{
 type:String,
@@ -51,21 +56,37 @@ ordersList: [{//this list is to store all the history orders that the user made 
 //will work until the encryption done to ensure the passwords will be saved into the database encrypted 
 //and in the same time i want the any other code that it doesnot dependent on the password encryption continue and doesnot stop 
 
-userSchema.pre("save",async function (next) {
-// i need to check that first it is new password not any changing happened into the password
-//so we will encrypt the password in just 2 cases : register or update the password only otherwise we will not make this encryption
-if(this.isModified("password"))//if it modifies so we will encrypt it before saving 
-{//in the modified function you must pass the filed attribute name on it 
-const habiba_salt=await bcrypt.genSalt(10);
-this.password=await bcrypt.hash(this.password,habiba_salt);
-//and after finish call the mongo to come and store the result into the database 
-next();
-}
-else//so we will not make encrypted to the password again so we will return 
-{
-return next();//the next function here is to call mongo and tell it i finish come to save the data inside the daa base 
-}
-})
+// userSchema.pre("save",async function (next) {
+// // i need to check that first it is new password not any changing happened into the password
+// //so we will encrypt the password in just 2 cases : register or update the password only otherwise we will not make this encryption
+// if(this.isModified("password"))//if it modifies so we will encrypt it before saving 
+// {//in the modified function you must pass the filed attribute name on it 
+// const habiba_salt=await bcrypt.genSalt(10);
+// this.password=await bcrypt.hash(this.password,habiba_salt);
+// //and after finish call the mongo to come and store the result into the database 
+// next();
+// }
+// else//so we will not make encrypted to the password again so we will return 
+// {
+// return next();//the next function here is to call mongo and tell it i finish come to save the data inside the daa base 
+// }
+// })
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next(); // Skip hashing if password is not modified
+  
+  try {
+    const salt = await bcrypt.genSalt(10); // Generate salt
+    this.password = await bcrypt.hash(this.password, salt); // Hash the password
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return bcrypt.compare(enteredPassword, this.password);
+};
 /*
 - the next function is used for telling the mono that i finish cause if i didnot use it it will still forever in the asyn function
 -the number inside the densalt is the number of rounds and it indicatee to how the hashing is complex the 10 is the most common used number 
@@ -76,3 +97,4 @@ and the vice versa
 //now last thing is to save this schema into model to can use it in any other files to can interactive with it
 //for making any inserting or updating or deleting 
 module.exports=mongoose.model('User',userSchema);
+// module.exports = User;
