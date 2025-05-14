@@ -1,7 +1,5 @@
-import React from 'react';
-import Categories from './Categories';
-import { categories } from './data'; // Assuming data is in the correct path
-import './Menu.css'
+import Categories from "./Categories";
+import "./Menu.css";
 
 export default function Menu() {
   return (
@@ -9,7 +7,8 @@ export default function Menu() {
       <div className="menu-header">
         <h2>Our Healthy Menu</h2>
       </div>
-      <Categories categories={categories} />
+      {/* <Categories categories={categories} /> */}
+      <Categories />
     </div>
   );
 }
