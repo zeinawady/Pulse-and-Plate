@@ -1,26 +1,27 @@
-/* Container for categories */
 .categories-container {
   margin-top: 50px;
   padding: 20px;
-  background-color: #f9f9f9; /* Add background color to enhance the section */
+  background-color: #f9f9f9;
   border-radius: 10px;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Categories container (title section) */
 .categories {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
-  gap: 20px; /* Increase gap for better spacing */
+  gap: 20px;
 }
 
-/* Category title style */
 .category-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary-color);
-  margin-bottom: 15px; /* Reduce margin for better alignment */
+  margin-bottom: 15px;
   text-align: center;
   position: relative;
   padding-bottom: 10px;
@@ -28,7 +29,6 @@
   transition: color 0.3s ease;
 }
 
-/* Underline effect */
 .category-title::after {
   content: '';
   position: absolute;
@@ -40,36 +40,29 @@
   transition: background-color 0.3s ease;
 }
 
-/* Hover effect for category title */
-.category-title:hover {
-  color: var(--secondary-color);
-}
-
-.category-title:hover::after {
-  background-color: var(--secondary-color);
-}
-
-/* Active category (when clicked) */
+.category-title:hover,
 .category-title.active {
   color: var(--secondary-color);
 }
 
+.category-title:hover::after,
 .category-title.active::after {
   background-color: var(--secondary-color);
 }
 
-/* Container for meal cards */
+/* Meals Grid - Responsive and Centered */
 .meals-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
-  justify-items: center;
+  justify-content: center; /* centers grid items horizontally */
   margin-top: 20px;
-  grid-template-rows: auto;
   padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-/* Meal card style */
+/* Meal card */
 .meal-card {
   background-color: #fff;
   border: 1px solid #eee;
@@ -82,26 +75,24 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 15px;
   box-sizing: border-box;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Meal card hover effect */
 .meal-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  background-color: #f9f9f9; /* Add subtle background change on hover */
+  background-color: #f9f9f9;
 }
 
-/* Meal card image */
 .meal-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
   border-radius: 8px;
-  transition: opacity 0.3s ease; /* Add smooth opacity transition */
+  transition: opacity 0.3s ease;
 }
 
-/* Meal name style */
 .meal-name {
   font-size: 16px;
   font-weight: bold;
@@ -109,7 +100,6 @@
   color: var(--primary-color);
 }
 
-/* Meal price style */
 .meal-price {
   font-size: 14px;
   color: var(--secondary-color);
@@ -117,10 +107,33 @@
   font-weight: bold;
 }
 
-/* Responsive styles */
+.view-details {
+  padding: 0.5rem 1rem;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  border-radius: 6px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  max-width: 200px;
+  margin: 0.5rem auto 0;
+  display: block;
+}
+
+.view-details:hover {
+  background-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
+  .meals-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
   .meal-card {
-    width: 180px;
+    max-width: 180px;
     padding: 12px;
   }
 
@@ -132,7 +145,14 @@
     font-size: 1.1rem;
   }
 
+  .view-details {
+    max-width: 150px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
   .meals-grid {
-    grid-template-columns: repeat(2, 1fr); /* Two cards per row on smaller screens */
+    grid-template-columns: 1fr;
   }
 }
