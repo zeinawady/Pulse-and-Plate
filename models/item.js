@@ -41,7 +41,7 @@
 // });
 
 // module.exports = mongoose.model('Item', itemSchema);
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 
@@ -63,6 +63,10 @@ const itemSchema = new schema({
     type: Number,
     required: false
   },
+  category: { // Added category field
+    type: String,
+    required: true
+  },
   price: {
     type: Number,
     required: true
@@ -75,4 +79,4 @@ const itemSchema = new schema({
 });
 
 // تصدير الموديل
-module.exports = mongoose.model('Item', itemSchema);
+module.exports = mongoose.model("Item", itemSchema);

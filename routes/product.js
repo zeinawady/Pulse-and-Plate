@@ -8,32 +8,66 @@
 
 */
 console.log("routes/product.js file is being executed");
-const express = require('express')
+const express = require("express")
 const route = express.Router()
-const Item = require('../models/item')
-const Menu = require('../models/Menu');
+const Item = require("../models/item")
+const Menu = require("../models/Menu");
 
 //first lets handle the delete product logic function 
 
-route.delete('/:productName', async (req, res) => {
-    //and then now taking the paramter to can get the product id first 
-    const productname = req.params.productName
-    //there is a built in library in mongoose that help us to find the first element with this value in the db and delete it from there
+route.delete("/:productName", async (req, res) => {
+    const productname = req.params.productName;
 
-    if (!productname)//it means empty
-    { return res.status(400).json({ message: "Product name is required." }); }
+    if (!productname) {
+        return res.status(400).json({ message: "Product name is required." });
+    }
 
-    const findingtheproduct = await Item.findOneAndDelete({ name: productname });
+    //  نجيب المنتج نفسه الأول
+    const product = await Item.findOne({ name: productname });
 
-    if (!findingtheproduct) //it means this product name is not in the db
-    { return res.status(404).json({ message: `Product with name "${productname}" not found.` }); }
+    if (!product) {
+        return res.status(404).json({ message: `Product with name "${productname}" not found.` });
+    }
 
-    //otherwise so it is found and it is deleted successfully so return 200 as a response code
+    //   نحذفه من مجموعة المنتجات
+    await Item.deleteOne({ _id: product._id });
+
+    //  نحذفه من المنيو كمان
+    const menu = await Menu.findOne();
+    if (menu) {
+        // نلاقي الفئة اللي فيها المنتج
+        const category = menu.categories.find(cat => cat.title === product.category);
+
+        if (category) {
+            // نشيل الـ ObjectId من الفئة
+            category.items = category.items.filter(
+                itemId => itemId.toString() !== product._id.toString()
+            );
+        }
+
+        await menu.save(); // حفظ التعديلات
+    }
+
     res.status(200).json({ message: `Product "${productname}" deleted successfully.` });
+});
 
-})
 
-route.post('/add-item', async (req, res) => {
+route.post("/add-menu", async (req, res) => {
+    try {
+        const newMenu = new Menu({
+            title: "Pulse and Plate Menu",
+            categories: []  // يمكن أن تتركها فارغة أو تضيف فيها فئات
+        });
+
+        await newMenu.save();
+        res.status(201).json({ message: "Menu created successfully.", menu: newMenu });
+    } catch (error) {
+        res.status(500).json({ message: "Error creating menu", error: error.message });
+    }
+});
+
+
+route.post("/add-item", async (req, res) => {
     try {
         const { name, price, image, description, calories, category } = req.body;
 
@@ -64,7 +98,7 @@ route.post('/add-item', async (req, res) => {
         // الآن بعد إضافة الـ Item، نقوم بإضافته إلى الـ Menu حسب الفئة
         const menu = await Menu.findOne();
         if (!menu) {
-            return res.status(404).json({ message: 'Menu not found' });
+            return res.status(404).json({ message: "Menu not found" });
         }
 
         // البحث عن الـ Category المناسبة
@@ -72,14 +106,18 @@ route.post('/add-item', async (req, res) => {
 
         if (!categoryFound) {
             // إذا لم تكن الفئة موجودة، نضيفها
+
+            if (!category || typeof category !== "string" || category.trim() === "") {
+                return res.status(400).json({ message: "Category title cannot be empty when creating a new category." });
+            }
             categoryFound = {
-                title: category,
-                meals: [newItem._id]
+                title: category.trim(), // Use trimmed category
+                items: [newItem._id]
             };
             menu.categories.push(categoryFound);
         } else {
             // إذا كانت الفئة موجودة، نضيف المنتج إلى الفئة
-            categoryFound.meals.push(newItem._id);
+            categoryFound.items.push(newItem._id);
         }
 
         await menu.save();
@@ -95,16 +133,17 @@ route.post('/add-item', async (req, res) => {
 });
 
 
-route.get('/list', async (req, res) => {
+route.get("/list", async (req, res) => {
+
     try {
-        const menu = await Menu.findOne().populate('categories.products');
+        const menu = await Menu.findOne().populate("categories.items");
         if (!menu) {
-            return res.status(404).json({ message: 'Menu not found' });
+            return res.status(404).json({ message: "Menu not found" });
         }
 
         const formatted = menu.categories.map(category => ({
-            category: category.name,
-            products: category.products.map(p => ({
+            category: category.title,
+            items: category.items.map(p => ({
                 name: p.name,
                 photo: p.photo,
                 price: p.price
@@ -112,7 +151,7 @@ route.get('/list', async (req, res) => {
         }));
 
         res.status(200).json({
-            message: 'Products listed by category',
+            message: "Products listed by category",
             menu: formatted
         });
 
@@ -123,7 +162,7 @@ route.get('/list', async (req, res) => {
 
 
 
-route.put('/update/:productName', async (req, res) => {
+route.put("/update/:productName", async (req, res) => {
     try {
         const oldProductName = req.params.productName;
         const updates = req.body;
@@ -134,38 +173,47 @@ route.put('/update/:productName', async (req, res) => {
             return res.status(404).json({ message: `Product "${oldProductName}" not found.` });
         }
 
+        const originalCategoryTitle = oldProduct.category; // Store original category title from the item itself
+
         const updatedProduct = await Item.findOneAndUpdate(
             { name: oldProductName },
-            updates,
-            { new: true }
+            updates, // req.body
+            { new: true, runValidators: true } // Ensure validators run for the Item update
         );
 
+        if (!updatedProduct) {
+            return res.status(500).json({ message: "Failed to update product details, possibly due to validation issues with the item itself." });
+        }
 
         const menu = await Menu.findOne();
         if (!menu) {
-            return res.status(404).json({ message: 'Menu not found.' });
+            return res.status(404).json({ message: "Menu not found." });
         }
 
+        const newCategoryTitle = updatedProduct.category; // Category title after item update
 
-        const oldCategory = menu.categories.find(cat => cat.name === oldProduct.category);
-        if (oldCategory) {
-            oldCategory.products = oldCategory.products.filter(
-                productId => productId.toString() !== oldProduct._id.toString()
-            );
+        // If the category of the item has changed, remove it from the old category in the menu
+        if (originalCategoryTitle && originalCategoryTitle !== newCategoryTitle) {
+            const oldCategoryInMenu = menu.categories.find(cat => cat.title === originalCategoryTitle);
+            if (oldCategoryInMenu) {
+                oldCategoryInMenu.items.pull(updatedProduct._id); // Use pull for direct removal
+            }
         }
 
+        // Add/Move item to the new/current category in the menu
+        // The Item model's 'category: { required: true }' ensures newCategoryTitle is a valid string.
+        let targetCategoryInMenu = menu.categories.find(cat => cat.title === newCategoryTitle.trim());
 
-        const newCategory = menu.categories.find(cat => cat.name === updatedProduct.category);
-        if (newCategory) {
-            if (!newCategory.products.includes(updatedProduct._id)) {
-                newCategory.products.push(updatedProduct._id);
+        if (targetCategoryInMenu) {
+            // Category exists, add item if not already there
+            if (!targetCategoryInMenu.items.some(itemId => itemId.toString() === updatedProduct._id.toString())) {
+                targetCategoryInMenu.items.push(updatedProduct._id);
             }
         } else {
-
-
+            // Category does not exist, create it (newCategoryTitle should be valid due to Item schema)
             menu.categories.push({
-                name: updatedProduct.category,
-                products: [updatedProduct._id]
+                title: newCategoryTitle.trim(),
+                items: [updatedProduct._id]
             });
         }
 

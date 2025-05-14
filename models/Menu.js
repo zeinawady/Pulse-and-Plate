@@ -54,7 +54,7 @@
 // module.exports = mongoose.model("Menu", MenuSchema);
 
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 const CategorySchema = new schema({
@@ -62,7 +62,7 @@ const CategorySchema = new schema({
     type: String,
     required: true, // Category title is required
   },
-  item: [
+  items: [
     {
       type: mongoose.Schema.Types.ObjectId,  // إضافة نوع الـ ObjectId هنا
       ref: "Item", // ده صح طالما الـ Item هو الاسم الصحيح للموديل
