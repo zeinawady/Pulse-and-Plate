@@ -1,5 +1,8 @@
 /* Container for each meal card */
 .meal-card {
+  display: flex;
+  flex-direction: column; /* Stack the elements vertically */
+  justify-content: space-between; /* Ensure space between elements */
   width: 300px;
   border: 1px solid #ddd;
   border-radius: 15px; /* Rounded corners */
@@ -11,16 +14,13 @@
   position: relative;
   overflow: hidden; /* Prevents content overflow when hovered */
   cursor: pointer;
-}
-
-.meal-card:hover {
-  transform: translateY(-5px); /* Lift card up slightly on hover */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Enhanced shadow effect */
+  margin: 10px; /* Added margin for spacing between multiple cards */
 }
 
 /* Meal Image container with overlay */
 .meal-image-container {
   position: relative;
+  margin-bottom: 15px; /* Consistent margin below image */
 }
 
 /* Meal Image Style */
@@ -112,7 +112,7 @@
   cursor: pointer;
   border-radius: 8px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-top: 15px;
+  margin-top: auto; /* Ensures the button always stays at the bottom */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -134,7 +134,7 @@
   font-size: 1.4rem;
   color: var(--secondary-color);
   font-weight: bold;
-  margin-bottom: 12px;
+  margin-bottom: 12px; /* Consistent bottom margin */
 }
 
 /* Responsive Style */
@@ -142,6 +142,7 @@
   .meal-card {
     width: 100%;
     padding: 16px;
+    margin: 10px 0; /* Margin to create space between meal cards on smaller screens */
   }
 
   .meal-image {
