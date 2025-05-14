@@ -16,7 +16,7 @@ const Product = require('./routes/product');
 // const adminRoutes = require('./routes/admin')
 
 
-const PORT = 3000;
+const PORT = 3030;
 const MONGO_URI = "mongodb+srv://esraa:esraa@pulseandplasedb.veodylk.mongodb.net/pulseandplateDB?retryWrites=true&w=majority";
 const JWT_SECRET = "your_jwt_secret"
 

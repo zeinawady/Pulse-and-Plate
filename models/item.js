@@ -71,7 +71,7 @@ const itemSchema = new schema({
     type: Number,
     required: true
   },
-  avilableCounter: {
+  availableCounter: {
     type: Number,
     required: false,
     default: 15 // البدء بكمية معينة لكل منتج

@@ -1,15 +1,15 @@
 //first thing which is very important in creating each collection file 
 //is to import the monoose linbrary to can define the schemas and use the models inside this lib
 
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 //importing the installed bcrypt linrary to can use it later
-const bcrypt=require('bcrypt')
+const bcrypt = require('bcrypt')
 //now we will need to define an object from the schema class 
-const schema=mongoose.Schema
+const schema = mongoose.Schema
 
 
 //now lets define our user schema and define its attributes 
-const userSchema = new schema ({
+const userSchema = new schema({
   //now each field which is the attribute having 4 things must be defined when creating the schema and there is more things 
   /*
     type: DataType,         // e.g., String, Number, Date, Boolean, etc.
@@ -18,33 +18,37 @@ const userSchema = new schema ({
     default: value,         // (Optional) default value
   
   */
-id:{
-type:Number,
-unique:true
-},
-Name:{
-type:String,
-required:true,
-required:true,
-unique:false
-},
-email:{
-type:String,
-required:true,
-unique:true
-},
-password:{
-type:String,
-required:true,
-},
-registeredAt:{
-  type:Date,
-  default:Date.now
-},
-ordersList: [{//this list is to store all the history orders that the user made until now 
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'Order' 
-}]
+  id: {
+    type: Number,
+    unique: true
+  },
+  name: {
+    type: String,
+    required: true,
+    unique: false
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  registeredAt: {
+    type: Date,
+    default: Date.now
+  },
+  role: {
+    type: String,
+    required: true,
+    default: 'user'
+  },
+  ordersList: [{//this list is to store all the history orders that the user made until now 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order'
+  }]
 
 
 });
@@ -74,7 +78,7 @@ ordersList: [{//this list is to store all the history orders that the user made 
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next(); // Skip hashing if password is not modified
-  
+
   try {
     const salt = await bcrypt.genSalt(10); // Generate salt
     this.password = await bcrypt.hash(this.password, salt); // Hash the password
@@ -96,5 +100,5 @@ and the vice versa
 
 //now last thing is to save this schema into model to can use it in any other files to can interactive with it
 //for making any inserting or updating or deleting 
-module.exports=mongoose.model('User',userSchema);
+module.exports = mongoose.model('User', userSchema);
 // module.exports = User;
