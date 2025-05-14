@@ -13,7 +13,7 @@ import ContactUs from './components/ContactUs/ContactUs';
 function App() {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       {/* <Home/> */}
       
       <Routes>
@@ -25,7 +25,7 @@ function App() {
         
       </Routes>
       
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

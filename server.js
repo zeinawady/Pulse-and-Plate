@@ -6,11 +6,14 @@ const mongoose = require('mongoose')
 // const Menu=require('./models/Menu.JS')
 
 const express = require("express")
+const cors = require('cors');
+
+
 //const cors = require("cors")
 
-const authRoutes = require('./routes/authentication')
+// const authRoutes = require('./routes/authentication')
 const userRoutes = require('./routes/user')
-console.log("Registering Product routes at /api/product");
+// console.log("Registering Product routes at /api/product");
 const Product = require('./routes/product');
 
 // const adminRoutes = require('./routes/admin')
@@ -22,9 +25,8 @@ const JWT_SECRET = "your_jwt_secret"
 
 
 const app = express()
-
+app.use(cors()); // Enable CORS if using a frontend like React
 // Middleware
-// app.use(cors()); // Enable CORS if using a frontend like React
 app.use(express.json());
 
 
@@ -51,7 +53,7 @@ mongoose.connect(MONGO_URI, {
 console.log("connected to the mongo atlas server is failed ");
 })
 
-app.use('/api/auth', authRoutes);
+// app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/product', Product);
 
