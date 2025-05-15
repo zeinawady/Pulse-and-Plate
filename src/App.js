@@ -16,6 +16,7 @@ import ProductInfo from "./components/ProductInfo/ProductInfo";
 import PaymentPage from "./components/PaymentPage/PaymentPage";
 import AdminProfile from "./components/AdminProfile/AdminProfile";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Cart from "./components/Cart/Cart";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/cart" element={<Cart />} />
           {/* <Route path="/contactus" element={<ContactUs />} /> */}
           <Route path="/category" element={<Menu />} />
           <Route path="/login" element={<Login />} />

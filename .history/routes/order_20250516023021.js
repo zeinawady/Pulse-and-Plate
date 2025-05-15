@@ -11,10 +11,14 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 const Order = require("../models/order.js"); 
 const Item = require("../models/item.js");   
 const User = require("../models/user.js");   
 const auth = require("../middleware/auth"); 
+
+const router = express.Router();
+
 
 // makign the get order function and returning the item info
 // now in this function the front team will send the name of the item that the user choosen it to added in the cart 
