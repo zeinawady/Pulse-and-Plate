@@ -10,6 +10,7 @@ import Menu from './components/Menu/Menu';
 import ContactUs from './components/ContactUs/ContactUs';
 import ProductInfo from './components/ProductInfo/ProductInfo'; // تأكد من إضافة المسار الصحيح للـ ProductInfo
 import Categories from './components/Categories/Categories';
+import WhyChooseUs from './components/WhyChooseUs/About';
 
 function App() {
   return (
