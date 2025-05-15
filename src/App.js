@@ -9,6 +9,7 @@ import About from './components/About/About';
 import Menu from './components/Menu/Menu';
 import ContactUs from './components/ContactUs/ContactUs';
 import ProductInfo from './components/ProductInfo/ProductInfo'; // تأكد من إضافة المسار الصحيح للـ ProductInfo
+import Categories from './components/Categories/Categories';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route path="/menu" element={<Menu />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/product-info" element={<ProductInfo />} />  {/* تأكد من إضافة هذا المسار */}
+        <Route path="/category" element={<Categories />} />
+        <Route path="/whyChooseUs" element={<WhyChooseUs />} />
       </Routes>
       <Footer />
     </div>
