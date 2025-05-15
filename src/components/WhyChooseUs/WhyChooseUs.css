@@ -3,6 +3,21 @@
     padding-block-start: var(--sections-padding);
     padding-block-end: var(--sections-padding);
 }
+.whyChooseUS-header {
+  flex-basis: 100%; 
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+}
+
+.whyChooseUS-header h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  letter-spacing: 2px;
+  margin: 0;
+}
 .wrapper{
     display: flex;
     justify-content: space-between;
@@ -35,5 +50,16 @@
     .wrapper{
         flex-direction: column;
     }
+    
+@media (max-width: 780px) {
+  .box {
+    width: 180px;
+    padding: 12px;
+  }
+
+  .box >p:first-child{
+    font-size: 1rem;
+  }
+}
 
 }

@@ -9,6 +9,9 @@ export default function About() {
   return (
     <div className="whyChooseUS">
       <Container fluid="md">
+        <div className="whyChooseUS-header">
+        <h2>Our Service</h2>
+      </div>
         <div className="wrapper">
           <div className="box">
             
