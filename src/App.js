@@ -15,31 +15,32 @@ import { UserProvider } from './UserContext';
 import ProductInfo from './components/ProductInfo/ProductInfo';
 import PaymentPage from './components/PaymentPage/PaymentPage';
 
+
 function App() {
   return (
     <UserProvider>
-    <div>
-      <Header />
+      <div>
+        <Header />
 
-      {/* <Home/> */}
+        {/* <Home/> */}
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/menu" element={<Menu />} />
-        {/* <Route path="/contactus" element={<ContactUs />} /> */}
-        <Route path="/category" element={<Menu />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignUp />} />
-        <Route path="/userAccount" element={<UserProfile />} />
-        <Route path="/contactus" element={<ContactUs />} />
-        <Route path="/product-info" element={<ProductInfo />} />
-        <Route path='/PaymentPage' element={<PaymentPage />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/category" element={<Menu />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<SignUp />} />
+          <Route path="/userAccount" element={<UserProfile />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/product-info" element={<ProductInfo />} />
+          <Route path='/PaymentPage' element={<PaymentPage />} />
 
-      </Routes>
-      
-      <Footer />
+
+        </Routes>
+
+        <Footer />
       </div>
     </UserProvider>
   );
