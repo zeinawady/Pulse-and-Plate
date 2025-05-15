@@ -13,10 +13,16 @@ export default function MealCard({ meal }) {
 
   // Add to cart using axios
   const handleAddToCart = () => {
-    
-    const token = localStorage.getItem("token"); // Assuming JWT token
-    //const token = localStorage.getItem("token");
-console.log("TOKEN:", token); // 👈 Add this
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      alert("You must be logged in to add items to the cart.");
+      navigate("/login");
+      return;
+    }
+  
+    console.log("TOKEN:", token);
+  
     axios
       .post(
         "http://localhost:3050/api/addorder",
@@ -31,21 +37,21 @@ console.log("TOKEN:", token); // 👈 Add this
       .then(() => {
         alert("Item added to cart!");
       })
-      // .catch((err) => {
-      //   // console.error("Add to cart error:", err);
-      //   console.error("Add to cart error:", err.response?.data || err.message);
-      //   if (err.response?.status === 401) {
-      //     navigate("/login"); // Redirect to login if unauthorized
-      //   } else {
-      //     alert("Failed to add item to cart");
-      //   }
-      // });
       .catch((err) => {
         console.error("Add to cart error:", err.response?.data || err.message);
-        alert("Failed to add item to cart:\n" + (err.response?.data?.message || err.message));
+  
+        if (err.response?.status === 401) {
+          alert("Session expired. Please log in again.");
+          navigate("/login");
+        } else {
+          alert(
+            "Failed to add item to cart:\n" +
+              (err.response?.data?.message || err.message)
+          );
+        }
       });
   };
-
+  
   // Navigate to meal details
   const handleViewDetails = () => {
     navigate(`/meal/${meal._id || meal.name}`); // Use _id or name as fallback
