@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios"; // Import axios
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./MealCard.css";
+import { Link } from 'react-router-dom';
 
 export default function MealCard({ meal }) {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -14,15 +15,15 @@ export default function MealCard({ meal }) {
   // Add to cart using axios
   const handleAddToCart = () => {
     const token = localStorage.getItem("token");
-  
+
     if (!token) {
       alert("You must be logged in to add items to the cart.");
       navigate("/login");
       return;
     }
-  
+
     console.log("TOKEN:", token);
-  
+
     axios
       .post(
         "http://localhost:3050/api/addorder",
@@ -39,19 +40,19 @@ export default function MealCard({ meal }) {
       })
       .catch((err) => {
         console.error("Add to cart error:", err.response?.data || err.message);
-  
+
         if (err.response?.status === 401) {
           alert("Session expired. Please log in again.");
           navigate("/login");
         } else {
           alert(
             "Failed to add item to cart:\n" +
-              (err.response?.data?.message || err.message)
+            (err.response?.data?.message || err.message)
           );
         }
       });
   };
-  
+
   // Navigate to meal details
   const handleViewDetails = () => {
     navigate(`/meal/${meal._id || meal.name}`); // Use _id or name as fallback
@@ -66,9 +67,13 @@ export default function MealCard({ meal }) {
           className="meal-image"
         />
         <div className="overlay">
-          <button className="view-details" onClick={handleViewDetails}>
-            View Details
-          </button>
+          <Link to="/product-info" state={{ product: meal }}>
+
+
+            <button className="view-details" onClick={handleViewDetails}>
+              View Details
+            </button>
+          </Link>
         </div>
         <div
           className={`fav-icon ${isFavorited ? "favorited" : ""}`}
