@@ -23,14 +23,14 @@ body {
     color: var(--text-color);
 }
 
-a {
+.payment-page a {
     text-decoration: none;
     color: var(--primary-color);
 }
 
 
 /* Main container */
-.container {
+.payment-page.container {
     max-width: 960px;
     margin: 100px;
     padding: var(--sections-padding) 30px;
@@ -41,7 +41,7 @@ a {
 }
 
 /* Card style */
-.card {
+.payment-page .card {
     background: var(--light-color);
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -50,7 +50,7 @@ a {
 }
 
 /* Card header */
-.card-header {
+.payment-page .card-header {
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--primary-color);
@@ -60,14 +60,14 @@ a {
 }
 
 /* Order Summary Items */
-.card-body>div.d-flex {
+.payment-page .card-body>div.d-flex {
     font-size: 1.1rem;
     justify-content: space-between;
     padding: 8px 0;
     border-bottom: 1px solid var(--secondary-light-color);
 }
 
-.card-body>hr+div {
+.payment-page .card-body>hr+div {
     font-weight: 700;
     font-size: 1.25rem;
     color: var(--primary-color);
@@ -75,21 +75,21 @@ a {
 }
 
 /* Form headings */
-h4,
-h5 {
+.payment-page h4,
+.payment-page h5 {
     color: var(--primary-color);
     margin-bottom: 20px;
     font-weight: 700;
 }
 
 /* Form labels */
-.form-label {
+.payment-page .form-label {
     font-weight: 600;
     color: var(--text-color);
 }
 
 /* Input fields */
-.form-control {
+.payment-page .form-control {
     border-radius: 8px;
     border: 2px solid var(--primary-color);
     padding: 10px 15px;
@@ -101,40 +101,40 @@ h5 {
     background-color: #fff;
 }
 
-.form-control:focus {
+.payment-page .form-control:focus {
     border-color: var(--secondary-color) !important;
     box-shadow: 0 0 8px var(--secondary-color) !important;
     outline: none;
 }
 
 /* Validation feedback */
-.is-invalid {
+.payment-page .is-invalid {
     border-color: #dc3545 !important;
 }
 
-.is-invalid:focus {
+.payment-page .is-invalid:focus {
     box-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
 }
 
-.invalid-feedback {
+.payment-page .invalid-feedback {
     font-size: 0.9rem;
     color: #dc3545;
     margin-top: 6px;
 }
 
 /* Radio buttons */
-.form-check-label {
+.payment-page .form-check-label {
     font-size: 1rem;
     color: var(--text-color);
 }
 
 
-button:hover {
+.payment-page button:hover {
     background-color: var(--secondary-color);
 }
 
 /* Submit button - This existing style will override the general button style for submit buttons where properties differ */
-button[type="submit"] {
+.payment-page button[type="submit"] {
     background-color: var(--primary-color);
     /* This is fine, can be more specific if needed */
     border: none;
@@ -152,7 +152,7 @@ button[type="submit"] {
     /* Specific to submit */
 }
 
-button[type="submit"]:hover {
+.payment-page button[type="submit"]:hover {
     background-color: var(--secondary-color);
     box-shadow: 0 6px 20px rgba(239, 144, 37, 0.3);
     /* Specific to submit */
@@ -160,13 +160,13 @@ button[type="submit"]:hover {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .container {
+    .payment-page.container {
         padding: 3rem 15px;
         margin-top: 60px;
         /* Adjusted margin for smaller screens if header is smaller or fixed differently */
     }
 
-    .row>div {
+        .payment-page .row>div {
         margin-bottom: 25px;
     }
 }
