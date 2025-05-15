@@ -1,0 +1,10 @@
+/* .custom-width{
+    max-width:36.25rem;
+} */
+input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+/* .contiainer-width{
+    max-width: 700px !important;
+} */
