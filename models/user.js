@@ -45,6 +45,10 @@ const userSchema = new schema({
     required: true,
     default: 'user'
   },
+  token: {
+    type: String,
+    required: false
+  },
   ordersList: [{//this list is to store all the history orders that the user made until now 
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Order'
@@ -106,7 +110,7 @@ userSchema.pre('save', async function (next) {
 
   try {
     const lastUser = await mongoose.model('User')
-                                  .findOne().sort({ id: -1 }).exec();
+      .findOne().sort({ id: -1 }).exec();
     this.id = lastUser ? lastUser.id + 1 : 1;
     next();
   } catch (err) {
