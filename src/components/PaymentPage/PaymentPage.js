@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, Col, Form, Row, Card } from "react-bootstrap";
 import './PaymentPage.css'
-import "../../App";
+import "../../App.css";
 
 
 const orderSummary = {

@@ -22,20 +22,27 @@ function App() {
     <UserProvider>
       <div>
         <Header />
+
+        {/* <Home/> */}
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/menu" element={<Menu />} />
+          {/* <Route path="/contactus" element={<ContactUs />} /> */}
           <Route path="/category" element={<Menu />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<SignUp />} />
           <Route path="/userAccount" element={<UserProfile />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/product-info" element={<ProductInfo />} />
+
           <Route path="/PaymentPage" element={<PaymentPage />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path='/PaymentPage' element={<PaymentPage />} />
+          <Route path='/admin-profile' element={<AdminProfile />} />
         </Routes>
 
         <Footer />

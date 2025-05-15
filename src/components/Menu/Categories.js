@@ -10,7 +10,7 @@ export default function Categories({ addToCart }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3030/api/product/list")
+      .get("http://localhost:3050/api/product/list")
       .then((response) => {
         if (
           response.data &&

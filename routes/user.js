@@ -62,7 +62,6 @@ router.post('/login', async (req, res) => {
     const userObj = user.toObject();
     delete userObj.password;
     delete userObj.__v;
-    delete userObj._id;
 
     res.json({ token, user: userObj });
   } catch (err) {
@@ -80,11 +79,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Delete user by ID (only for admins)
-router.delete('/:userID', auth, async (req, res) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Forbidden: Only admins can delete users." });
-  }
+router.delete('/:userID', async (req, res) => {
 
   const userID = req.params.userID;
   if (!userID) {
@@ -92,6 +87,7 @@ router.delete('/:userID', auth, async (req, res) => {
   }
 
   const deletedUser = await User.findByIdAndDelete(userID);
+  // const deletedUser = await User.fi
   if (!deletedUser) {
     return res.status(404).json({ message: `User with ID "${userID}" not found.` });
   }

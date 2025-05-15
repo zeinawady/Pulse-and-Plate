@@ -15,7 +15,7 @@ const ProductInfo = () => {
         <div className="product-info-container">
             <div className="product-info">
                 <div className="product-info__image-section">
-                    <img src={product.image} alt={product.name} className="product-info__image" />
+                    <img src={product.photo} alt={product.name} className="product-info__image" />
                 </div>
                 <div className="product-info__details-section">
                     <h1 className="product-info__name">{product.name}</h1>

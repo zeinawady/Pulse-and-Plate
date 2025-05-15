@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3030/api/users';
+const URL = 'http://localhost:3050/api/users';
 
 // Register user
 export async function registerUser(userData) {
@@ -28,8 +28,8 @@ export async function loginUser(userData) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
     });
-
     const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
         throw new Error(data.error || 'Failed to login user');
@@ -62,13 +62,12 @@ export async function fetchAllUsers(token) {
 }
 
 // Delete user (admin only) — pass token for auth
-export async function deleteUser(userId, token) {
+export async function deleteUser(userId) {
     try {
         const response = await fetch(`${URL}/${userId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
             },
         });
 
