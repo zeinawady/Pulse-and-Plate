@@ -78,5 +78,4 @@ const itemSchema = new schema({
   }
 });
 
-// تصدير الموديل
 module.exports = mongoose.model("Item", itemSchema);

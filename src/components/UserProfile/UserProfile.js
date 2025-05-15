@@ -6,11 +6,31 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { updateUserInfo } from '../../api/UsersAPI';
 import { useUser } from '../../UserContext';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function UserAccount() {
     // const currentUser = JSON.parse(localStorage.getItem("user"));
     const userToken = localStorage.getItem('token');
     const { user: currentUser, setUser } = useUser();
+
+    // const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     if (!currentUser) {
+    //         navigate("/home");
+    //     }
+    // }, [currentUser, navigate]);
+    // if (!currentUser) {
+    //     return (
+    //         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+    //             <Spinner animation="border" role="status" />
+    //             <span className="ms-2">Loading your profile...</span>
+    //         </div>
+    //     );
+    // }
+
     const formik = useFormik({
         initialValues: {
             name: currentUser.name || '',
@@ -43,6 +63,8 @@ export default function UserAccount() {
             }
         }
     });
+
+    
 
     return (
         <div className="d-flex justify-content-center align-items-center bg-secondary main-container">

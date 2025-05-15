@@ -1,35 +1,36 @@
 import React from 'react';
 import './Header.css';
 import '../../App';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useUser } from "../../UserContext";
-// Reactstrap
+
+// React Bootstrap
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { NavLink } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-// font awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';  // Import the FontAwesomeIcon component
+import Dropdown from 'react-bootstrap/Dropdown';
 
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 export default function Header() {
     const { user, setUser } = useUser();
-    const [isLoggedIn, setIsLoggedIn] = useState(!!user);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        setIsLoggedIn(!!user);
-    }, [user]);
+    const handleLogout = () => {
+        navigate('/login');
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        setUser(null);
+    };
 
     return (
         <Navbar expand="md" className="fixed-top">
             <Container fluid="md">
-                {/* Logo */}
-                <Navbar.Brand href="#home">
+                <Navbar.Brand as={Link} to="/home">
                     <img
-                        src="images/logo-trans.png"
+                        src="/images/logo-trans.png"
                         width="40"
                         height="40"
                         className="d-inline-block align-top"
@@ -40,22 +41,37 @@ export default function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto ms-auto">
-                        <Nav.Link as={NavLink} to="/home" className="nav-link">Home</Nav.Link>
-                        <Nav.Link as={NavLink} to="/menu" className="nav-link">Menu</Nav.Link>
-                        <Nav.Link as={NavLink} to="/about" className="nav-link">About</Nav.Link>
-                        {/* <Nav.Link as={NavLink} to="/contactus" className="nav-link">Contact Us</Nav.Link> */}
-                        <Nav.Link as={NavLink} to="/category" className="nav-link">Categories</Nav.Link>
+                        <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
+                        <Nav.Link as={NavLink} to="/menu">Menu</Nav.Link>
+                        <Nav.Link as={NavLink} to="/about">About</Nav.Link>
+                        <Nav.Link as={NavLink} to="/contactus">Contact Us</Nav.Link>
                     </Nav>
 
-                    <div className='icons'>
-                        <FontAwesomeIcon icon="cart-shopping" />
-                        <Button as={Link} to={user?.name ? "/userAccount" : "/login"}>
-                            {user?.name ? `${user.name.split(" ")[0]} Profile` : "Login | Register"}
-                        </Button>
+                    <div className="icons d-flex align-items-center gap-3">
+                        <FontAwesomeIcon icon={faCartShopping} size="lg" />
 
+                        <Dropdown align="end">
+                            <Dropdown.Toggle variant="success" id="dropdown-user">
+                                {user?.name ? user.name.split(" ")[0] : "Login | Register"}
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                {user?.name ? (
+                                    <>
+                                        <Dropdown.Item as={Link} to="/userAccount">Profile</Dropdown.Item>
+                                        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Dropdown.Item as={Link} to="/login">Login</Dropdown.Item>
+                                        <Dropdown.Item as={Link} to="/register">Register</Dropdown.Item>
+                                    </>
+                                )}
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
     );
-};
+}
