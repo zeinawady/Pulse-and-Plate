@@ -1,0 +1,11 @@
+.main-container button {
+    background-color: rgba(106, 159, 0, 0.95);
+    color: white;
+    font-weight: bold;
+    border-color: var(--primary-color) !important;
+}
+
+.main-container button:hover {
+    background-color: rgba(106, 159, 0, 1);
+    color: white;
+}

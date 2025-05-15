@@ -9,27 +9,28 @@ import { useUser } from '../../UserContext';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
+import './UserProfile.css';
+import {deleteUser} from '../../api/UsersAPI';
 
 export default function UserAccount() {
-    // const currentUser = JSON.parse(localStorage.getItem("user"));
-    const userToken = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const { user: currentUser, setUser } = useUser();
+    const navigate = useNavigate();
 
-    // const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     if (!currentUser) {
-    //         navigate("/home");
-    //     }
-    // }, [currentUser, navigate]);
-    // if (!currentUser) {
-    //     return (
-    //         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-    //             <Spinner animation="border" role="status" />
-    //             <span className="ms-2">Loading your profile...</span>
-    //         </div>
-    //     );
-    // }
+    const handleDeleteAccount = async () => {
+        try {
+                const response = await deleteUser(currentUser._id);
+                if (response) {
+                    navigate('/login');
+                    alert('User deleted successfully!');
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    setUser(null);
+                }
+            } catch (error) {
+                alert(error.message || 'Something went wrong');
+            }
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -51,7 +52,7 @@ export default function UserAccount() {
                     payload.password = values.newPassword;
                 }
 
-                const updated = await updateUserInfo(payload, userToken);
+                const updated = await updateUserInfo(payload, token);
                 alert('User updated successfully!');
                 localStorage.setItem('user', JSON.stringify(updated));
                 localStorage.setItem('token', updated.token);
@@ -63,8 +64,6 @@ export default function UserAccount() {
             }
         }
     });
-
-    
 
     return (
         <div className="d-flex justify-content-center align-items-center bg-secondary main-container">
@@ -142,6 +141,13 @@ export default function UserAccount() {
                         <Col sm={{ span: 9, offset: 3 }}>
                             <Button type="submit" disabled={formik.isSubmitting}>
                                 {formik.isSubmitting ? 'Updating!!' : 'Update My Info'}
+                            </Button>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                        <Col sm={{ span: 9, offset: 3 }}>
+                            <Button onClick={handleDeleteAccount}  className='mt-2'>
+                                Delete Your Account
                             </Button>
                         </Col>
                     </Form.Group>
