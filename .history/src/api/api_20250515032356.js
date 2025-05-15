@@ -23,7 +23,7 @@ export async function registerUser(userData) {
 }
 
 export async function loginUser(userData) {
-    // try {
+    try {
         const response = await fetch(`${URL}/login`, {
             method: 'POST',
             headers: {
@@ -33,14 +33,14 @@ export async function loginUser(userData) {
         });
          const data = await response.json();
         if (!response.ok) {
-            throw new Error(data.message || 'Failed to login user');
+            throw new Error('Failed to login user');
         }
-
+        
         return data;
-    // } catch (error) {
-    //     console.error('Error logging in user:', error);
-    //     throw error;
-    // }
+    } catch (error) {
+        console.error('Error logging in user:', error);
+        throw error;
+    }
 }
 
 export async function fetchAllUsers() {

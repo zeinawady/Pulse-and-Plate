@@ -60,65 +60,59 @@ const userSchema = new schema({
 //will work until the encryption done to ensure the passwords will be saved into the database encrypted 
 //and in the same time i want the any other code that it doesnot dependent on the password encryption continue and doesnot stop 
 
-// userSchema.pre("save",async function (next) {
-// // i need to check that first it is new password not any changing happened into the password
-// //so we will encrypt the password in just 2 cases : register or update the password only otherwise we will not make this encryption
-// if(this.isModified("password"))//if it modifies so we will encrypt it before saving 
-// {//in the modified function you must pass the filed attribute name on it 
-// const habiba_salt=await bcrypt.genSalt(10);
-// this.password=await bcrypt.hash(this.password,habiba_salt);
-// //and after finish call the mongo to come and store the result into the database 
-// next();
-// }
-// else//so we will not make encrypted to the password again so we will return 
-// {
-// return next();//the next function here is to call mongo and tell it i finish come to save the data inside the daa base 
-// }
-// })
-
-// userSchema.pre('save', async function (next) {
-//   if (this.isNew) { // Only increment id for new documents
-//     try {
-//       // Find max id in existing users
-//       const lastUser = await mongoose.model('User').findOne().sort({ id: -1 }).exec();
-//       this.id = lastUser ? lastUser.id + 1 : 1;  // start from 1 if no user exists
-//     } catch (err) {
-//       return next(err);
-//     }
-//   }
-//   next();
-// });
-
-// userSchema.pre('save', async function (next) {
-//   if (!this.isModified('password')) return next(); // Skip hashing if password is not modified
-
-//   try {
-//     const salt = await bcrypt.genSalt(10); // Generate salt
-//     this.password = await bcrypt.hash(this.password, salt); // Hash the password
-//     next();
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+userSchema.pre("save",async function (next) {
+// i need to check that first it is new password not any changing happened into the password
+//so we will encrypt the password in just 2 cases : register or update the password only otherwise we will not make this encryption
+if(this.isModified("password"))//if it modifies so we will encrypt it before saving 
+{//in the modified function you must pass the filed attribute name on it 
+const habiba_salt=await bcrypt.genSalt(10);
+this.password=await bcrypt.hash(this.password,habiba_salt);
+//and after finish call the mongo to come and store the result into the database 
+next();
+}
+else//so we will not make encrypted to the password again so we will return 
+{
+return next();//the next function here is to call mongo and tell it i finish come to save the data inside the daa base 
+}
+})
 
 userSchema.pre('save', async function (next) {
-  if (!this.isNew) return next();
+  if (this.isNew) { // Only increment id for new documents
+    try {
+      // Find max id in existing users
+      const lastUser = await mongoose.model('User').findOne().sort({ id: -1 }).exec();
+      this.id = lastUser ? lastUser.id + 1 : 1;  // start from 1 if no user exists
+    } catch (err) {
+      return next(err);
+    }
+  }
+  next();
+});
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next(); // Skip hashing if password is not modified
 
   try {
-    const lastUser = await mongoose.model('User')
-                                  .findOne().sort({ id: -1 }).exec();
-    this.id = lastUser ? lastUser.id + 1 : 1;
+    const salt = await bcrypt.genSalt(10); // Generate salt
+    this.password = await bcrypt.hash(this.password, salt); // Hash the password
     next();
   } catch (err) {
     next(err);
   }
 });
+
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
-    // if password wasn’t touched, skip
-    return next();
+  if (this.isNew) {
+    try {
+      const lastUser = await mongoose.model('User').findOne().sort({ id: -1 }).exec();
+      this.id = lastUser ? lastUser.id + 1 : 1;
+    } catch (err) {
+      return next(err);
+    }
   }
 
+  if (!this.isModified('password')) return next();
+  
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);

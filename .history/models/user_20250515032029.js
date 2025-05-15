@@ -101,33 +101,6 @@ const userSchema = new schema({
 //   }
 // });
 
-userSchema.pre('save', async function (next) {
-  if (!this.isNew) return next();
-
-  try {
-    const lastUser = await mongoose.model('User')
-                                  .findOne().sort({ id: -1 }).exec();
-    this.id = lastUser ? lastUser.id + 1 : 1;
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
-    // if password wasn’t touched, skip
-    return next();
-  }
-
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
-
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };

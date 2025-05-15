@@ -1,47 +1,35 @@
+
 import React, { useState } from "react";
 import "../../App";
-import "./SignUp.css";
+import "./Login.css";
 import "../../api/api";
 import { Link } from "react-router-dom";
-import { registerUser } from "../../api/api";
+import { loginUser } from "../../api/api";
 
-export default function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await registerUser({ name, email, password });
-      alert("Registration successful!");
-      setName("");
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to register. Please try again.");
-    }
-  };
-
+export default function Login() {
+  
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+  
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        await loginUser({ email, password });
+        alert("Login successful!");
+        setEmail("");
+        setPassword("");
+      } catch (error) {
+        console.error(error);
+        alert("Failed to login. Please try again.");
+      }
+    };
   return (
+    
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-        <h2>Register</h2>
+        <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3 ">
-            <label htmlFor="username" className="form-label">
-              <strong>Username</strong>
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              placeholder="Enter Username"
-              name="username"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <div></div>
-          </div>
+          
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               <strong>Email</strong>
@@ -73,7 +61,7 @@ const handleSubmit = async (e) => {
             Register
           </button>
 
-          {/* <p>Already Have an Account</p> */}
+          <p>Already Have an Account</p>
           <Link
             to="/login"
             className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none"

@@ -23,7 +23,7 @@ export async function registerUser(userData) {
 }
 
 export async function loginUser(userData) {
-    // try {
+    try {
         const response = await fetch(`${URL}/login`, {
             method: 'POST',
             headers: {
