@@ -4,11 +4,9 @@ import "./Login.css";
 import "../../api/api";
 import { loginUser } from "../../api/api";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
-
 
 export default function Login() {
-   const navigate = useNavigate();
+  // const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -19,7 +17,6 @@ export default function Login() {
         const res = await loginUser(values);
         alert("Login successful!");
         resetForm();
-        navigate("/home");
       } catch (error) {
         console.error(error.message);
         alert("Failed to login. Please try again.");

@@ -1,28 +1,28 @@
 import React from "react";
 import "../../App";
-import "./Login.css";
+import "./SignUp.css";
 import "../../api/api";
-import { loginUser } from "../../api/api";
+import { Link , useNavigate } from "react-router-dom";
+import { registerUser } from "../../api/api";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 
-
-export default function Login() {
-   const navigate = useNavigate();
+export default function SignUp() {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
+      name: "",
       email: "",
       password: "",
     },
     onSubmit: async (values, { resetForm }) => {
       try {
-        const res = await loginUser(values);
-        alert("Login successful!");
+        await registerUser(values);
+        alert("Registration successful!");
         resetForm();
-        navigate("/home");
+        Navigate("/login");
       } catch (error) {
-        console.error(error.message);
-        alert("Failed to login. Please try again.");
+        console.error(error);
+        alert("Failed to register. Please try again.");
       }
     },
   });
@@ -30,8 +30,21 @@ export default function Login() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-        <h2>Login</h2>
+        <h2>Register</h2>
         <form onSubmit={formik.handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              <strong>Username</strong>
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              placeholder="Enter Username"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+            />
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               <strong>Email</strong>
@@ -58,12 +71,16 @@ export default function Login() {
               onChange={formik.handleChange}
             />
           </div>
-          <button
-            type="submit"
-            className="btn btn-success w-100 rounded-0 mt-4"
+          <button type="submit" className="btn btn-success w-100 rounded-0 mt-4">
+            Register
+          </button>
+
+          <Link
+            to="/login"
+            className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none mt-2"
           >
             Login
-          </button>
+          </Link>
         </form>
       </div>
     </div>

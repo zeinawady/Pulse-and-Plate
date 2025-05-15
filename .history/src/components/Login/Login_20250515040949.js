@@ -19,7 +19,6 @@ export default function Login() {
         const res = await loginUser(values);
         alert("Login successful!");
         resetForm();
-        navigate("/home");
       } catch (error) {
         console.error(error.message);
         alert("Failed to login. Please try again.");

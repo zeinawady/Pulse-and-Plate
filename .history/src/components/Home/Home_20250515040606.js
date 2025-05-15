@@ -6,7 +6,7 @@ export default function Home() {
         <div>
            <Header />
            <Main />
-         
+           <Menu />
         </div>
     );
 }
