@@ -38,7 +38,7 @@ export async function loginUser(userData) {
     return data;
 }
 
-// Fetch all users (likely admin-only)
+// Fetch all users 
 export async function fetchAllUsers(token) {
     try {
         const response = await fetch(`${URL}/`, {
