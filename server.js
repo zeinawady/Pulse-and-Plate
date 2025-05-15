@@ -19,7 +19,7 @@ const Product = require('./routes/product');
 // const adminRoutes = require('./routes/admin')
 
 
-const PORT = 3030;
+const PORT = 3050;
 const MONGO_URI = "mongodb+srv://esraa:esraa@pulseandplasedb.veodylk.mongodb.net/pulseandplateDB?retryWrites=true&w=majority";
 const JWT_SECRET = "your_jwt_secret"
 
@@ -46,7 +46,7 @@ mongoose.connect(MONGO_URI, {
   console.log("connected to the mongo atlas server is successful ");
 
    app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
   });
 })
 .catch((error) =>{
