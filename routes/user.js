@@ -10,7 +10,7 @@ const JWT_SECRET = "your_jwt_secret";
 const generateToken = (user) => {
   return jwt.sign(
     {
-      userId: user._id,
+      userId: user._id.toString(),
       role: user.role,
       id: user.id,
     },
@@ -18,6 +18,16 @@ const generateToken = (user) => {
     { expiresIn: '30d' }
   );
 };
+// const generateToken = (user) => {
+//   return jwt.sign(
+//     {
+//       _id: user._id,       // ✅ use _id, not userId
+//       role: user.role
+//     },
+//     JWT_SECRET,
+//     { expiresIn: '30d' }
+//   );
+// };
 
 // Register a new user
 router.post('/register', async (req, res) => {
@@ -62,6 +72,7 @@ router.post('/login', async (req, res) => {
     const userObj = user.toObject();
     delete userObj.password;
     delete userObj.__v;
+    delete userObj._id;
 
     res.json({ token, user: userObj });
   } catch (err) {
@@ -79,7 +90,11 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.delete('/:userID', async (req, res) => {
+// Delete user by ID (only for admins)
+router.delete('/:userID', auth, async (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Forbidden: Only admins can delete users." });
+  }
 
   const userID = req.params.userID;
   if (!userID) {
@@ -87,7 +102,6 @@ router.delete('/:userID', async (req, res) => {
   }
 
   const deletedUser = await User.findByIdAndDelete(userID);
-  // const deletedUser = await User.fi
   if (!deletedUser) {
     return res.status(404).json({ message: `User with ID "${userID}" not found.` });
   }
@@ -98,7 +112,7 @@ router.delete('/:userID', async (req, res) => {
 // Update user profile (authenticated user)
 router.put('/profile', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
