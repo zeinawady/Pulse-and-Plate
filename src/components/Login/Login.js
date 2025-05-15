@@ -5,9 +5,11 @@ import { loginUser } from "../../api/UsersAPI";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { useUser } from "../../UserContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const formik = useFormik({
     initialValues: {
@@ -26,11 +28,11 @@ export default function Login() {
       try {
         const res = await loginUser(values);
         alert("Login successful!");
-        console.log(res);
         
         localStorage.setItem("user", JSON.stringify(res.user));
         localStorage.setItem("token", res.token);
-        
+        setUser(res.user); 
+
         resetForm();
         navigate("/home");
       } catch (error) {

@@ -14,7 +14,7 @@ import UserProfile from './components/UserProfile/UserProfile';
 import { UserProvider } from './UserContext';
 import ProductInfo from './components/ProductInfo/ProductInfo';
 import PaymentPage from './components/PaymentPage/PaymentPage';
-
+import AdminProfile from './components/AdminProfile/AdminProfile';
 
 function App() {
   return (
@@ -29,14 +29,15 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/menu" element={<Menu />} />
+          {/* <Route path="/contactus" element={<ContactUs />} /> */}
           <Route path="/category" element={<Menu />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<SignUp />} />
           <Route path="/userAccount" element={<UserProfile />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/contactus" element={<ContactUs />} />
           <Route path="/product-info" element={<ProductInfo />} />
           <Route path='/PaymentPage' element={<PaymentPage />} />
-
+          <Route path='/admin-profile' element={<AdminProfile />} />
 
         </Routes>
 
