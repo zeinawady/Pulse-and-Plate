@@ -15,8 +15,7 @@ import Login from './components/Login/Login';
 function App() {
   return (
     <div>
-      {/* <Header /> */}
-      {/* <Home/> */}
+      <Header />
       
       <Routes>
         <Route path="/" element={<Home />} />
@@ -29,7 +28,7 @@ function App() {
         
       </Routes>
       
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

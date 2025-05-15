@@ -1,0 +1,9 @@
+button[type = "submit"]{
+    background-color: rgba(106, 159, 0, 0.95);
+    color: white;
+    font-weight: bold;
+}
+button[type="submit"]:hover{
+    background-color: rgba(106, 159, 0, 1);
+    color: white;
+}

@@ -1,10 +1,12 @@
-/* .custom-width{
-    max-width:36.25rem;
-} */
+.main-container{
+  margin-top: var(--section-margin);
+}
+
 input:focus {
   outline: none !important;
   box-shadow: none !important;
 }
-/* .contiainer-width{
-    max-width: 700px !important;
-} */
+button[type="submit"] {
+  background-color: var(--primary-color);
+  border: var(--primary-color);
+}

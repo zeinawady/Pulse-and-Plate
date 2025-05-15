@@ -11,6 +11,7 @@
   --text-color: #000000;
   --font-family: "Lato", sans-serif;
   --sections-padding: 5rem;
+  --section-margin: 60px;
 }
 
 body {
