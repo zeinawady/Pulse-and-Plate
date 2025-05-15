@@ -1,0 +1,172 @@
+:root {
+    --primary-color: #6b9f00;
+    --secondary-color: #ef9025;
+    --light-color: #efe2b3;
+    --secondary-light-color: #FDFAE0;
+    --text-color: #000000;
+    --font-family: "Lato", sans-serif;
+    --sections-padding: 5rem;
+    --section-margin: 60px;
+    /* This variable can be used or adjusted for header height */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: none !important;
+    outline: none !important;
+    font-family: var(--font-family);
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #eee;
+    color: var(--text-color);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+
+/* Main container */
+.container {
+    max-width: 960px;
+    margin: 100px;
+    padding: var(--sections-padding) 30px;
+    background-color: var(--secondary-light-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(107, 159, 0, 0.3);
+
+}
+
+/* Card style */
+.card {
+    background: var(--light-color);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+/* Card header */
+.card-header {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+/* Order Summary Items */
+.card-body>div.d-flex {
+    font-size: 1.1rem;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--secondary-light-color);
+}
+
+.card-body>hr+div {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    padding-top: 10px;
+}
+
+/* Form headings */
+h4,
+h5 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* Form labels */
+.form-label {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Input fields */
+.form-control {
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    padding: 10px 15px;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    color: var(--text-color);
+    background-color: #fff;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color) !important;
+    box-shadow: 0 0 8px var(--secondary-color) !important;
+    outline: none;
+}
+
+/* Validation feedback */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+}
+
+.invalid-feedback {
+    font-size: 0.9rem;
+    color: #dc3545;
+    margin-top: 6px;
+}
+
+/* Radio buttons */
+.form-check-label {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Submit button - This existing style will override the general button style for submit buttons where properties differ */
+button[type="submit"] {
+    background-color: var(--primary-color);
+    /* This is fine, can be more specific if needed */
+    border: none;
+    color: white;
+    font-weight: 700;
+    /* Specific to submit */
+    padding: 14px 32px;
+    /* Specific to submit */
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    /* Specific to submit */
+    transition: background-color 0.3s ease;
+    box-shadow: 0 5px 15px rgba(107, 159, 0, 0.2);
+    /* Specific to submit */
+}
+
+button[type="submit"]:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 6px 20px rgba(239, 144, 37, 0.3);
+    /* Specific to submit */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 3rem 15px;
+        margin-top: 60px;
+        /* Adjusted margin for smaller screens if header is smaller or fixed differently */
+    }
+
+    .row>div {
+        margin-bottom: 25px;
+    }
+}

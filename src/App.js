@@ -9,6 +9,7 @@ import About from './components/About/About';
 import Menu from './components/Menu/Menu';
 import ContactUs from './components/ContactUs/ContactUs';
 import ProductInfo from './components/ProductInfo/ProductInfo';
+import PaymentPage from './components/PaymentPage/PaymentPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/menu" element={<Menu />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/product-info" element={<ProductInfo />} />
+        <Route path='/PaymentPage' element={<PaymentPage />} />
 
       </Routes>
       <Footer />
