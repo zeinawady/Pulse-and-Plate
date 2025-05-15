@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3020/api/users';
+const URL = 'http://localhost:3050/api/users';
 
 // Register user
 export async function registerUser(userData) {
