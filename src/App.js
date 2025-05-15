@@ -12,11 +12,15 @@ import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import UserProfile from './components/UserProfile/UserProfile';
 import { UserProvider } from './UserContext';
+import ProductInfo from './components/ProductInfo/ProductInfo';
+
 function App() {
   return (
     <UserProvider>
     <div>
       <Header />
+
+      {/* <Home/> */}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -28,6 +32,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/userAccount" element={<UserProfile />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/product-info" element={<ProductInfo />} />
+
       </Routes>
       
       <Footer />
