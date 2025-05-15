@@ -1,5 +1,6 @@
 .main-container{
   margin-top: var(--section-margin);
+  height: calc(100vh - 60px);
 }
 
 input:focus {

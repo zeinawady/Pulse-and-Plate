@@ -1,83 +1,127 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user')
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 const auth = require('../middleware/auth');
 
-// user authentication
-
-const jwt = require('jsonwebtoken');
 const JWT_SECRET = "your_jwt_secret";
 
+// Utility to generate JWT
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      userId: user._id,
+      role: user.role,
+      id: user.id,
+    },
+    JWT_SECRET,
+    { expiresIn: '30d' }
+  );
+};
+
+// Register a new user
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password, role="user" } = req.body;
 
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
-      res.status(400).json({ error: 'User already exists with this email.' })
-      return;
+      return res.status(400).json({ error: 'User already exists with this email.' });
     }
-    const user = new User({ name, email, password })
-    await user.save()
-    res.status(201).json({ message: 'User registered successfully.' });
-  }
-  catch (err) {
+
+    const user = new User({ name, email, password, role });
+    await user.save();
+
+    const userObj = user.toObject();
+    delete userObj.password;
+    delete userObj.__v;
+    delete userObj._id;
+    delete userObj.role;
+
+    res.status(201).json({
+      message: 'User registered successfully.',
+      user: userObj,
+    });
+  } catch (err) {
     res.status(400).json({ error: 'Registration failed', details: err.message });
   }
+});
 
-})
-
+// Login a user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
 
+    const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign(
-      { userId: user._id, role: user.role, id: user.id },
-      JWT_SECRET,
-      { expiresIn: '1d' }
-    );
+    const token = generateToken(user);
 
-    res.json({ token });
+    const userObj = user.toObject();
+    delete userObj.password;
+    delete userObj.__v;
+    delete userObj._id;
+
+    res.json({ token, user: userObj });
   } catch (err) {
     res.status(500).json({ error: 'Login failed', details: err.message });
   }
 });
 
+// Get all users (unprotected, could be protected if needed)
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({});
     res.status(200).json(users);
   } catch (error) {
-    console.error("Error fetching all users:", error);
     res.status(500).json({ message: "Failed to fetch users", error: error.message });
   }
 });
 
-// writing the code of delete user function 
-//tjis function will be auth to ensure the authorization and the admin is the only person who can delete the user 
-router.delete('/:userID', async (req, res) => {
+// Delete user by ID (only for admins)
+router.delete('/:userID', auth, async (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Forbidden: Only admins can delete users." });
+  }
 
-  // if (!req.user || req.user.role !== "admin") { //that means it is a normal user want to make things to allowed to him
-  //   return res.status(403).json({ message: "Forbidden: Only admins can delete users." });
-  // }
+  const userID = req.params.userID;
+  if (!userID) {
+    return res.status(400).json({ message: "User ID parameter is required." });
+  }
 
-  const userid = req.params.userID;
-  let numberuserid;
-  if (!userid) { return res.status(400).json({ message: "User ID parameter is required." }); }
+  const deletedUser = await User.findByIdAndDelete(userID);
+  if (!deletedUser) {
+    return res.status(404).json({ message: `User with ID "${userID}" not found.` });
+  }
 
-  numberuserid = Number(userid);
-  if (isNaN(numberuserid)) { return res.status(400).json({ message: "User ID must be a valid number." }); }
-  const findinguser = await User.findOneAndDelete({ id: numberuserid });
-  if (!findinguser) { return res.status(404).json({ message: `User with ID "${numberuserid}" not found.` }); }
+  res.status(200).json({ message: `User with ID "${userID}" deleted successfully.` });
+});
 
-  res.status(200).json({ message: `User with ID "${numberuserid}" deleted successfully.` });
+// Update user profile (authenticated user)
+router.put('/profile', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.password = req.body.password || user.password;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      token: generateToken(updatedUser),
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Profile update failed', details: err.message });
+  }
 });
 
 module.exports = router;

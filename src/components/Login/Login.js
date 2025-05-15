@@ -1,8 +1,7 @@
 import React from "react";
 import "../../App";
 import "./Login.css";
-import "../../api/api";
-import { loginUser } from "../../api/api";
+import { loginUser } from "../../api/UsersAPI";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -27,6 +26,11 @@ export default function Login() {
       try {
         const res = await loginUser(values);
         alert("Login successful!");
+        console.log(res);
+        
+        localStorage.setItem("user", JSON.stringify(res.user));
+        localStorage.setItem("token", res.token);
+        
         resetForm();
         navigate("/home");
       } catch (error) {
