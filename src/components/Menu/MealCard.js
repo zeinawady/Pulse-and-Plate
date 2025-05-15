@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./MealCard.css";
+import { Link } from 'react-router-dom';
+
 
 export default function MealCard({ meal }) {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -7,6 +9,7 @@ export default function MealCard({ meal }) {
   const toggleFavorite = () => {
     setIsFavorited(!isFavorited);
   };
+
 
   return (
     <div className="meal-card">
@@ -16,7 +19,9 @@ export default function MealCard({ meal }) {
 
         {/* Overlay that shows on hover */}
         <div className="overlay">
-          <button className="view-details">View Meal Details</button>
+          <Link to="/product-info" state={{ product: meal }}>
+            <button className="view-details">View Meal Details</button>
+          </Link>
         </div>
 
         {/* Favorite Icon */}
@@ -29,7 +34,7 @@ export default function MealCard({ meal }) {
       </div>
 
       <h4 className="meal-name">{meal.name}</h4>
-<h2 className="meal-price">{meal.price} EGP</h2>
+      <h2 className="meal-price">{meal.price} EGP</h2>
       <button className="add-to-cart">Add to Cart</button>
     </div>
   );
