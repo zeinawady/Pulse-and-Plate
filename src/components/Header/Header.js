@@ -34,6 +34,7 @@ export default function Header() {
                         <Nav.Link as={NavLink} to="/menu" className="nav-link">Menu</Nav.Link>
                         <Nav.Link as={NavLink} to="/about" className="nav-link">About</Nav.Link>
                         <Nav.Link as={NavLink} to="/contactus" className="nav-link">Contact Us</Nav.Link>
+                        <Nav.Link as={NavLink} to="/category" className="nav-link">Categories</Nav.Link>
                     </Nav>
 
                     <div className='icons'>
