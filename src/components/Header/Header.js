@@ -49,7 +49,10 @@ export default function Header() {
 
                     <div className='icons'>
                         <FontAwesomeIcon icon="cart-shopping" />
-                        <Button as={Link} to="/userAccount">{user.name.split(" ")[0]} Profile</Button>
+                        <Button as={Link} to={user?.name ? "/userAccount" : "/login"}>
+                            {user?.name ? `${user.name.split(" ")[0]} Profile` : "Login | Register"}
+                        </Button>
+
                     </div>
                 </Navbar.Collapse>
             </Container>
