@@ -37,7 +37,7 @@ const schema = yup.object().shape({
 
 function PaymentPage() {
     return (
-        <div className="container my-6">
+        <div className="container my-6 payment-page">
             <Row>
                 {/* Order Summary */}
                 <Col md={4}>
