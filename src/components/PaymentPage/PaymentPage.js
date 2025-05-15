@@ -150,11 +150,19 @@ function PaymentPage() {
                                             type="text"
                                             name="expiryDate"
                                             value={values.expiryDate}
-                                            onChange={handleChange}
+                                            onChange={(e) => {
+                                                let input = e.target.value.replace(/\D/g, ""); // يشيل أي حرف مش رقم
+                                                if (input.length >= 3) {
+                                                    input = input.slice(0, 2) + "/" + input.slice(2, 4);
+                                                }
+                                                setFieldValue("expiryDate", input);
+                                            }}
                                             isInvalid={touched.expiryDate && !!errors.expiryDate}
                                             isValid={touched.expiryDate && !errors.expiryDate}
                                             placeholder="MM/YY"
+                                            maxLength={5}
                                         />
+
                                         <Form.Control.Feedback type="invalid">{errors.expiryDate}</Form.Control.Feedback>
                                     </Form.Group>
 
