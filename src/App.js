@@ -16,6 +16,8 @@ import ProductInfo from "./components/ProductInfo/ProductInfo";
 import PaymentPage from "./components/PaymentPage/PaymentPage";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Cart from "./components/Cart/Cart";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
+
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
 
           <Route path="/PaymentPage" element={<PaymentPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/PageNotFound" element={<PageNotFound />} />
+
         </Routes>
 
         <Footer />
