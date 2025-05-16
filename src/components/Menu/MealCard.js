@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Make sure Bootstrap CSS is imported
 import "./MealCard.css";
+import { Link } from "react-router-dom";
 
 export default function MealCard({ meal }) {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -20,17 +21,26 @@ export default function MealCard({ meal }) {
       navigate("/login");
       return;
     }
+    
+    console.log("TOKEN:" , token)
 
     axios
       .post(
         "http://localhost:3050/api/addorder",
-        { itemname: meal.name, quantity: 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { 
+          itemname: meal.name,
+          quantity: 1, 
+        },
+        { 
+          headers: { Authorization: `Bearer ${token}` } 
+        },
       )
       .then(() => {
         alert("Item added to cart!");
       })
       .catch((err) => {
+        console.error("Add to cart error:" , err.response?.data||err.message)
+        
         if (err.response?.status === 401) {
           alert("Session expired. Please log in again.");
           navigate("/login");
@@ -57,6 +67,7 @@ export default function MealCard({ meal }) {
           style={{ height: "180px", objectFit: "cover", borderRadius: "10px" }}
         />
         <div className="overlay d-flex justify-content-center align-items-center">
+          <Link to="/product-info" state={{ product: meal }}></Link>
           <button
             className="view-details btn btn-secondary"
             onClick={handleViewDetails}
