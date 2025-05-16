@@ -38,10 +38,10 @@ export default function Categories() {
             <img src={cat.image} alt={cat.name} className="category-image" />
             <div className="category-content">
               <h3 className="category-title">{cat.name}</h3>
-              <Link to="/menu">
-                <button className="category-button">Go to {cat.name}</button>
-              </Link>
-             
+              <Link to={`/menu?category=${cat.name.toLowerCase()}`}>
+              <button className="category-button">Go to {cat.name}</button>
+            </Link>
+
             </div>
           </div>
         ))}
