@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Order = require('../models/order');
 const auth = require('../middleware/auth');
 
 const JWT_SECRET = "your_jwt_secret";
@@ -10,8 +11,9 @@ const generateToken = (user) => {
   return jwt.sign(
     {
       userId: user._id,
+      // _id: user._id,
       role: user.role,
-      id: user.id,
+      // id: user.id,
     },
     JWT_SECRET,
     { expiresIn: '30d' }
@@ -59,6 +61,7 @@ router.post('/login', async (req, res) => {
     const userObj = user.toObject();
     delete userObj.password;
     delete userObj.__v;
+    delete userObj.__id;
 
     res.json({ token, user: userObj });
   } catch (err) {
@@ -125,5 +128,19 @@ router.put('/profile', auth, async (req, res) => {
     res.status(500).json({ error: 'Profile update failed', details: err.message });
   }
 });
+
+router.get("/orders", auth, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id })
+      .populate("items") // or "item", depending on your schema
+      .exec();
+
+    res.status(200).json({ orders });
+  } catch (err) {
+    console.error("Failed to get user orders:", err);
+    res.status(500).json({ message: "Could not fetch orders" });
+  }
+});
+
 
 module.exports = router;

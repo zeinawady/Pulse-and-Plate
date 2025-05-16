@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; // Make sure Bootstrap CSS is imported
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./MealCard.css";
 
 export default function MealCard({ meal }) {
@@ -12,39 +12,61 @@ export default function MealCard({ meal }) {
     setIsFavorited(!isFavorited);
   };
 
-  const handleAddToCart = () => {
-    const token = localStorage.getItem("token");
+ const handleAddToCart = async () => {
+  const token = localStorage.getItem("token");
 
-    if (!token) {
-      alert("You must be logged in to add items to the cart.");
-      navigate("/login");
-      return;
+  if (!token) {
+    alert("You must be logged in to add items to the cart.");
+    navigate("/login");
+    return;
+  }
+
+  try {
+    // أولًا نجلب السلة الحالية
+    const { data } = await axios.get("http://localhost:3050/api/addorder/myorders", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const cart = data.cart || [];
+    // Just check if the item is added before
+    const existingItem = cart.find(item => item.name === meal.name);
+
+    if (existingItem) {
+      //if it's just update the quantity
+      await axios.put(
+        `http://localhost:3050/api/addorder/cart/${existingItem._id}`,
+        { quantity: existingItem.quantity + 1 },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } else {
+      // and if not add it 
+      await axios.post(
+        "http://localhost:3050/api/addorder",
+        {
+          itemname: meal.name,
+          quantity: 1,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
     }
 
-    axios
-      .post(
-        "http://localhost:3050/api/addorder",
-        { itemname: meal.name, quantity: 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(() => {
-        alert("Item added to cart!");
-      })
-      .catch((err) => {
-        if (err.response?.status === 401) {
-          alert("Session expired. Please log in again.");
-          navigate("/login");
-        } else {
-          alert(
-            "Failed to add item to cart:\n" +
-              (err.response?.data?.message || err.message)
-          );
-        }
-      });
-  };
+    alert("Item added to cart!");
+  } catch (err) {
+    console.error("Add to cart error:", err.response?.data || err.message);
+
+    if (err.response?.status === 401) {
+      alert("Session expired. Please log in again.");
+      navigate("/login");
+    } else {
+      alert(
+        "Failed to add item to cart:\n" + (err.response?.data?.message || err.message)
+      );
+    }
+  }
+};
 
   const handleViewDetails = () => {
-    navigate(`/meal/${meal._id || meal.name}`);
+    navigate('/product-info', { state: { product: meal } });
   };
 
   return (
