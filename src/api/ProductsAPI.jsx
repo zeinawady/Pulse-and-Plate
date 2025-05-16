@@ -50,9 +50,9 @@ export async function addNewMeal(meal) {
   }
 }
 
-export async function deleteMeal(meal) {
+export async function deleteMeal(mealName) {
   try {
-    const response = await fetch(`${URL}/${encodeURIComponent(meal.name)}`, {
+    const response = await fetch(`${URL}/${encodeURIComponent(mealName)}`, {
       method: "DELETE",
       headers: getAuthHeaders(),
     });
@@ -60,12 +60,12 @@ export async function deleteMeal(meal) {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || `Failed to delete ${meal.name}!!`);
+      throw new Error(data.message || `Failed to delete ${mealName}!!`);
     }
 
     return data;
   } catch (error) {
-    console.error(`Error deleting ${meal.name}:`, error);
+    console.error(`Error deleting ${mealName}:`, error);
     throw error;
   }
 }

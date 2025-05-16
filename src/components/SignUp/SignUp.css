@@ -1,14 +1,22 @@
-.main-container{
+.main-container {
   margin-top: var(--section-margin);
 
   height: calc(100vh - 60px);
+}
+
+.main-container h1 {
+  color: var(--primary-color);
+  font-weight: bold;
 }
 
 input:focus {
   outline: none !important;
   box-shadow: none !important;
 }
+button{
+  border: none !important;
+
+}
 button[type="submit"] {
   background-color: var(--primary-color);
-  border: var(--primary-color);
 }

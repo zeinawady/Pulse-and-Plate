@@ -146,7 +146,8 @@ route.get("/list", async (req, res) => {
             items: category.items.map(p => ({
                 name: p.name,
                 photo: p.photo,
-                price: p.price
+                price: p.price,
+                quantity: p.quantity,
             }))
         }));
 

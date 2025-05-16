@@ -1,0 +1,3 @@
+.delete-content button:disabled{
+    background-color: var(--primary-color);
+}
