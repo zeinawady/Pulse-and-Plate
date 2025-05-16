@@ -126,4 +126,19 @@ router.put('/profile', auth, async (req, res) => {
   }
 });
 
+router.get("/orders", auth, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id })
+      .populate("items") // or "item", depending on your schema
+      .exec();
+
+    res.status(200).json({ orders });
+  } catch (err) {
+    console.error("Failed to get user orders:", err);
+    res.status(500).json({ message: "Could not fetch orders" });
+  }
+});
+
+
+
 module.exports = router;
