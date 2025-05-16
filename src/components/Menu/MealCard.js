@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +23,6 @@ export default function MealCard({ meal }) {
   }
 
   try {
-    // أولًا نجلب السلة الحالية
     const { data } = await axios.get("http://localhost:3050/api/addorder/myorders", {
       headers: { Authorization: `Bearer ${token}` },
     });

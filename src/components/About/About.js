@@ -3,7 +3,12 @@ import "./About.css";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+<<<<<<< HEAD
 import {Link} from 'react-router-dom';
+=======
+import { Link } from "react-router-dom";
+
+>>>>>>> a3f598baa7e2868f1948e14da891f465cbe92f14
 export default function About() {
   return (
     <div className="about">
@@ -19,7 +24,9 @@ export default function About() {
             guides to narrow things down even more!
           </p>
           <div className="buttons">
-            <Link to="/menu" className="submit-btn text-decoration-none">Explore Menu</Link>
+             <Link to="/Menu">
+            <Button className="custom-btn">Explore Popular Menu</Button>
+            </Link>
           </div>
           <div className="icons">
             <div className="icon">
