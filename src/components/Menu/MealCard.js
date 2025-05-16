@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css"; // Make sure Bootstrap CSS is imported
 import "./MealCard.css";
-import { Link } from 'react-router-dom';
 
 export default function MealCard({ meal }) {
   const [isFavorited, setIsFavorited] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const toggleFavorite = () => {
     setIsFavorited(!isFavorited);
   };
 
-  // Add to cart using axios
   const handleAddToCart = () => {
     const token = localStorage.getItem("token");
 
@@ -22,71 +21,80 @@ export default function MealCard({ meal }) {
       return;
     }
 
-    console.log("TOKEN:", token);
-
     axios
       .post(
         "http://localhost:3050/api/addorder",
-        {
-          itemname: meal.name,
-          quantity: 1,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { itemname: meal.name, quantity: 1 },
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(() => {
         alert("Item added to cart!");
       })
       .catch((err) => {
-        console.error("Add to cart error:", err.response?.data || err.message);
-
         if (err.response?.status === 401) {
           alert("Session expired. Please log in again.");
           navigate("/login");
         } else {
           alert(
             "Failed to add item to cart:\n" +
-            (err.response?.data?.message || err.message)
+              (err.response?.data?.message || err.message)
           );
         }
       });
   };
 
-  // Navigate to meal details
   const handleViewDetails = () => {
-    navigate(`/meal/${meal._id || meal.name}`); // Use _id or name as fallback
+    navigate(`/meal/${meal._id || meal.name}`);
   };
 
   return (
-    <div className="meal-card">
-      <div className="meal-image-container">
+    <div className="meal-card card mx-auto my-3" style={{ maxWidth: "320px" }}>
+      <div className="meal-image-container position-relative">
         <img
-          src={meal.photo || "https://via.placeholder.com/150"}
+          src={meal.photo || "https://via.placeholder.com/320x180"}
           alt={meal.name}
-          className="meal-image"
+          className="meal-image card-img-top"
+          style={{ height: "180px", objectFit: "cover", borderRadius: "10px" }}
         />
-        <div className="overlay">
-          <Link to="/product-info" state={{ product: meal }}>
-
-
-            <button className="view-details" onClick={handleViewDetails}>
-              View Details
-            </button>
-          </Link>
+        <div className="overlay d-flex justify-content-center align-items-center">
+          <button
+            className="view-details btn btn-secondary"
+            onClick={handleViewDetails}
+          >
+            View Details
+          </button>
         </div>
         <div
-          className={`fav-icon ${isFavorited ? "favorited" : ""}`}
+          className={`fav-icon position-absolute top-0 end-0 p-2 ${
+            isFavorited ? "favorited" : ""
+          }`}
           onClick={toggleFavorite}
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}
         >
           {isFavorited ? "❤️" : "🤍"}
         </div>
       </div>
-      <h4 className="meal-name">{meal.name || "Unknown Item"}</h4>
-      <h2 className="meal-price">{(meal.price || 0).toFixed(2)} EGP</h2>
-      <button className="add-to-cart" onClick={handleAddToCart}>
-        Add to Cart
-      </button>
+
+      <div className="card-body d-flex flex-column">
+        <h4
+          className="meal-name card-title"
+          style={{ color: "var(--primary-color)", textTransform: "capitalize" }}
+        >
+          {meal.name || "Unknown Item"}
+        </h4>
+        <h2
+          className="meal-price"
+          style={{ color: "var(--secondary-color)", fontWeight: "700" }}
+        >
+          {(meal.price || 0).toFixed(2)} EGP
+        </h2>
+        <button
+          className="add-to-cart btn btn-primary mt-auto"
+          onClick={handleAddToCart}
+        >
+          Add to Cart
+        </button>
+      </div>
     </div>
   );
 }
