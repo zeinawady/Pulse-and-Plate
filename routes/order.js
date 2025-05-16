@@ -164,4 +164,34 @@ router.delete("/cart/:id", auth, async (req, res) => {
   }
 });
 
+router.delete("/clearcart", auth, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Get all orders for this user
+    const orders = await Order.find({ user: userId });
+
+    // Restore available counter for each item
+    for (const order of orders) {
+      const item = await Item.findById(order.item);
+      if (item) {
+        item.avilableCounter += order.quantity;
+        await item.save();
+      }
+    }
+
+    // Remove all orders from user's ordersList
+    await User.findByIdAndUpdate(userId, { $set: { ordersList: [] } });
+
+    // Delete all orders for the user
+    await Order.deleteMany({ user: userId });
+
+    res.status(200).json({ message: "All cart items cleared successfully." });
+  } catch (err) {
+    console.error("Error clearing cart:", err);
+    res.status(500).json({ message: "Failed to clear cart", error: err.message });
+  }
+});
+
+
 module.exports = router;
