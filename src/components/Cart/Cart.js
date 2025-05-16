@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Cart.css";
-import PaymentModal from "../PaymentPage/PaymentModal";
+import PaymentModal from "../PaymentModal/PaymentModal";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
