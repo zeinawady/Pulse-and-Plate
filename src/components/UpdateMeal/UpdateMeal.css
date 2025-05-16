@@ -1,8 +1,12 @@
-.update-content {
-    margin-top: var(--section-margin);
-    margin-bottom: var(--section-margin);
+.update-content h1{
+    color: var(--primary-color);
+    /* margin-top: var(--section-margin);
     min-height: 100vh;
     height: auto;
     padding-top: var(--sections-padding);
-    padding-bottom: var(--sections-padding);
+    padding-bottom: var(--sections-padding); */
+}
+
+.update-content button{
+    
 }

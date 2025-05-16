@@ -1,3 +1,11 @@
 .dashboardContainer{
-    margin: 6.875rem 0;
+    /* margin: 6.875rem 0; */
+}
+
+.dashboardContainer h2{
+    font-size: 1.95rem;
+}
+
+.dashboardContainer .graph-title{
+    color: var(--secondary-color);
 }

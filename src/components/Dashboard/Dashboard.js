@@ -5,7 +5,8 @@ import { BsFillArchiveFill, BsPeopleFill, BsGrid } from "react-icons/bs";
 import {LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,PieChart, Pie, Cell, Legend,Bar,BarChart} from "recharts";
 import { fetchAllUsers } from "../../api/UsersAPI";
 import { fetchAllProducts } from "../../api/ProductsAPI";
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+import "../../App";
+const COLORS = ["#4a8075", "#ef9025", "#6b9f00", "#6b9f00"];
 function groupUsersByDate(users) {
     const countsPerDate = {};
 
@@ -128,10 +129,10 @@ useEffect(() => {
       <h2 className="pb-3">DASHBOARD</h2>
       <div className="row mb-4 ">
         <div className="col-lg-4 col-md-6 col-sm-12 mb-3">
-          <div className="card text-white bg-danger ">
+            <div className="card text-white" style={{ backgroundColor: "#5d4037" }}>
             <div className="card-body">
               <div className="card-inner">
-                <div className="card-title d-flex justify-content-between">
+                <div className="card-title d-flex justify-content-between" >
                   <h3>Orders</h3>
                   <h3 className="card_icon ">
                     <BsFillArchiveFill />
@@ -144,7 +145,7 @@ useEffect(() => {
         </div>
 
         <div className="col-lg-4 col-md-6 col-sm-12 mb-3">
-          <div className="card text-white bg-primary h-100">
+            <div className="card text-white h-100" style={{ backgroundColor: "var(--secondary-color)"}}>
             <div className="card-body">
               <div className="card-inner">
                 <div className="card-title d-flex justify-content-between">
@@ -160,7 +161,7 @@ useEffect(() => {
         </div>
 
         <div className="col-lg-4 col-md-6 col-sm-12 mb-3">
-          <div className="card text-white bg-secondary h-100">
+            <div className="card text-white h-100" style={{ backgroundColor: "#bdb5a7" }}>
             <div className="card-body">
               <div className="card-inner">
                 <div className="card-title d-flex justify-content-between">
@@ -176,7 +177,7 @@ useEffect(() => {
         </div>
 
         <div className="col-lg-4 col-md-6 col-sm-12 mb-3">
-          <div className="card text-white bg-success h-100">
+            <div className="card text-white h-100" style={{ backgroundColor: "#4a8075" }}>
             <div className="card-body">
               <div className="card-inner">
                 <div className="card-title d-flex justify-content-between">
@@ -194,7 +195,7 @@ useEffect(() => {
       <div className="row ">
 
         <div className="col-12 col-md-8 col-lg-6 mb-4">
-          <h3 className="pb-3 text-center">User Registrations Over Time</h3>
+            <h3 className="pb-3 text-center graph-title">User Registrations Over Time</h3>
           <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer>
             <LineChart data={registerDate}>
@@ -202,14 +203,14 @@ useEffect(() => {
               <YAxis allowDecimals={false} />
               <Tooltip />
               <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-              <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="count" stroke="#6b9f00" />
             </LineChart>
           </ResponsiveContainer>
         </div>
         </div>
 
          <div className="col-12 col-md-6">
-          <h3 className="pb-3 text-center">Users by Role</h3>
+          <h3 className="pb-3 text-center graph-title">Users by Role</h3>
           <PieChart width={400} height={300}>
             <Pie
               data={roleData}

@@ -1,4 +1,0 @@
-// url api
-
-url -> /api/user/auth/login
-url -> /api/user/

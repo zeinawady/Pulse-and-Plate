@@ -1,0 +1,93 @@
+.admin-container {
+    background-color: #fff;
+    padding-top: 60px;
+}
+.admin-container h1{
+    color: var(--primary-color);
+}
+
+
+.admin-container h2 {
+    color: var(--secondary-color);
+}
+
+.admin-container .swap-button {
+    background-color: transparent !important;
+    color: var(--secondary-color);
+    font-size: 2rem !important;
+}
+
+.admin-sidebar {
+    padding-top: 25px;
+    padding-left: 30px;
+box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-container .swap-button:hover {
+    color: var(--primary-color);
+}
+
+.admin-container .admin-sidebar {
+    background-color: var(--secondary-light-color);
+    height: auto;
+    min-height: 100vh;
+
+}
+
+.admin-container a {
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: normal !important;
+    color: var(--primary-color);
+}
+
+.offcanvas {
+    background-color: var(--secondary-light-color);
+    color: var(--primary-color);
+}
+
+.offcanvas-title {
+    font-size: 1.75rem;
+}
+
+.offcanvas a {
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: normal !important;
+    color: var(--secondary-color);
+}
+
+
+.icon-button {
+    position: absolute;
+    top: 80px;
+    right: 0px;
+}
+
+
+
+/* .container-admin {
+    padding: 20px;
+}
+
+.admin-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    padding-top: 20px;
+    min-height: 100vh;
+}
+
+.admin-link {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.admin-link:hover {
+    text-decoration: underline;
+} */

@@ -3,7 +3,7 @@ import './Header.css';
 import '../../App';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useUser } from "../../UserContext";
-
+import { deleteUser } from '../../api/UsersAPI';
 // React Bootstrap
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -12,7 +12,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 // Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 export default function Header() {
     const { user, setUser } = useUser();
@@ -23,6 +22,20 @@ export default function Header() {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         setUser(null);
+    };
+    const handleDeleteAccount = async () => {
+        try {
+            const response = await deleteUser(user._id);
+            if (response) {
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                setUser(null);
+                alert('User deleted successfully!');
+                navigate('/login');
+            }
+        } catch (error) {
+            alert(error.message || 'Something went wrong');
+        }
     };
 
     return (
@@ -49,8 +62,8 @@ export default function Header() {
 
                     <div className="icons d-flex align-items-center gap-3">
                         <Link to="/Cart">
-              <FontAwesomeIcon icon="cart-shopping" />
-            </Link>{" "}
+                            <FontAwesomeIcon icon="cart-shopping" />
+                        </Link>{" "}
 
                         <Dropdown align="end">
                             <Dropdown.Toggle variant="success" id="dropdown-user">
@@ -62,6 +75,7 @@ export default function Header() {
                                     <>
                                         <Dropdown.Item as={Link} to="/userAccount">Profile</Dropdown.Item>
                                         <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                                        <Dropdown.Item onClick={handleDeleteAccount}>Delete Account</Dropdown.Item>
                                     </>
                                 ) : (
                                     <>

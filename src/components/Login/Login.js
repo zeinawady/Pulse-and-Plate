@@ -34,7 +34,12 @@ export default function Login() {
         setUser(res.user);
 
         resetForm();
-        navigate("/home");
+        if(res.user.role === "admin") {
+          navigate("/admin/");
+        }
+        else {
+          navigate("/home"); 
+        }
       } catch (error) {
         alert("Failed to login!! Please try again.");
         throw new Error(error.message);

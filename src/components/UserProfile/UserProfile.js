@@ -12,22 +12,6 @@ import './UserProfile.css';
 export default function UserAccount() {
     const token = localStorage.getItem('token');
     const { user: currentUser, setUser } = useUser();
-    const navigate = useNavigate();
-
-    const handleDeleteAccount = async () => {
-        try {
-            const response = await deleteUser(currentUser._id);
-            if (response) {
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-                setUser(null);
-                alert('User deleted successfully!');
-                navigate('/login');
-            }
-        } catch (error) {
-            alert(error.message || 'Something went wrong');
-        }
-    };
 
     const formik = useFormik({
         initialValues: {
@@ -178,14 +162,6 @@ export default function UserAccount() {
                         <Col sm={{ span: 9, offset: 3 }}>
                             <Button type="submit" disabled={formik.isSubmitting}>
                                 {formik.isSubmitting ? 'Updating...' : 'Update My Info'}
-                            </Button>
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row}>
-                        <Col sm={{ span: 9, offset: 3 }}>
-                            <Button onClick={handleDeleteAccount} className="mt-2" variant="danger">
-                                Delete Your Account
                             </Button>
                         </Col>
                     </Form.Group>

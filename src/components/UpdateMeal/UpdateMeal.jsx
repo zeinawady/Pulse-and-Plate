@@ -63,8 +63,8 @@ export default function UpdateMeal() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-secondary update-content">
-      <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-7 ">
+    <div className="d-flex justify-content-center align-items-center update-content">
+      <div className="p-5 rounded col-11 col-sm-10 col-md-8 col-lg-6 col-xl-7 ">
         <h1 className="text-center mb-4">Update Meal</h1>
 
         <Form.Group className="mb-3">
