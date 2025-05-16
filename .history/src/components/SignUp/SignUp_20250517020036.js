@@ -42,6 +42,7 @@ export default function SignUp() {
   });
 
   return (
+    <div className="">
     <div className="d-flex justify-content-center align-items-center bg-secondary form-container register">
       <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5">
         <h2>Register</h2>
@@ -111,6 +112,7 @@ export default function SignUp() {
           </Link>
         </form>
       </div>
+    </div>
     </div>
   );
 }

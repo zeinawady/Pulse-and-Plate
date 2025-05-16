@@ -1,8 +1,7 @@
 .register{
   background-image: url(../../../public/images/register.png);
   background-position: center;
-  background-size: cover;
-    background-color: rgba(223, 225, 226,0.1);
+  background-size: ;
 }
 
 .form-container {
