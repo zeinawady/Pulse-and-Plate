@@ -17,6 +17,7 @@
   margin-bottom: 40px;
   position: relative;
   border-bottom: 2px solid var(--primary-color);
+  margin-top: 20px;
 }
 
 .menu-header h2 {
