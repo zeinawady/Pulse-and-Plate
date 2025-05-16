@@ -10,7 +10,7 @@ const JWT_SECRET = "your_jwt_secret";
 const generateToken = (user) => {
   return jwt.sign(
     {
-      userId: user._id.toString(),
+      userId: user._id,
       role: user.role,
       id: user.id,
     },
@@ -18,28 +18,18 @@ const generateToken = (user) => {
     { expiresIn: '30d' }
   );
 };
-// const generateToken = (user) => {
-//   return jwt.sign(
-//     {
-//       _id: user._id,       // ✅ use _id, not userId
-//       role: user.role
-//     },
-//     JWT_SECRET,
-//     { expiresIn: '30d' }
-//   );
-// };
 
 // Register a new user
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, date, role="user",ordersList } = req.body;
+    const { name, email, password, role = "user" } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists with this email.' });
     }
 
-    const user = new User({ name, email, password, date, role, ordersList });
+    const user = new User({ name, email, password, role });
     await user.save();
 
     const userObj = user.toObject();
@@ -72,7 +62,6 @@ router.post('/login', async (req, res) => {
     const userObj = user.toObject();
     delete userObj.password;
     delete userObj.__v;
-    delete userObj._id;
 
     res.json({ token, user: userObj });
   } catch (err) {
@@ -90,11 +79,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Delete user by ID (only for admins)
-router.delete('/:userID', auth, async (req, res) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Forbidden: Only admins can delete users." });
-  }
+router.delete('/:userID', async (req, res) => {
 
   const userID = req.params.userID;
   if (!userID) {
@@ -102,6 +87,7 @@ router.delete('/:userID', auth, async (req, res) => {
   }
 
   const deletedUser = await User.findByIdAndDelete(userID);
+  // const deletedUser = await User.fi
   if (!deletedUser) {
     return res.status(404).json({ message: `User with ID "${userID}" not found.` });
   }
@@ -112,14 +98,21 @@ router.delete('/:userID', auth, async (req, res) => {
 // Update user profile (authenticated user)
 router.put('/profile', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    user.password = req.body.password || user.password;
+
+    if (req.body.oldPassword && req.body.password) {
+      const matched = await user.password.comparePassword(req.body.password);
+      if (!matched) {
+        return res.status(400).json({ message: 'Old password is incorrect' });
+      }
+      user.password = req.body.password;
+    }
 
     const updatedUser = await user.save();
 

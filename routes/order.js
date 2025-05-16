@@ -56,9 +56,9 @@ router.post("/", auth, async (req, res) => {
       return res.status(404).json({ message: "Item not found." });
     }
 
-    if (item.avilableCounter < quantity) {
+    if (item.availableCounter < quantity) {
       return res.status(400).json({
-        message: `Only ${item.avilableCounter} items are available in stock.`,
+        message: `Only ${item.availableCounter} items are available in stock.`,
       });
     }
 
@@ -69,7 +69,7 @@ router.post("/", auth, async (req, res) => {
     });
     await newOrder.save();
 
-    item.avilableCounter -= quantity;
+    item.availableCounter -= quantity;
     await item.save();
 
     const user = await User.findById(userId);
@@ -144,7 +144,7 @@ router.delete("/cart/:id", auth, async (req, res) => {
 
     // Restore the item quantity
     const item = order.item;
-    item.avilableCounter += order.quantity;
+    item.availableCounter += order.quantity;
     await item.save();
 
     // Remove order ID from user's ordersList

@@ -36,8 +36,8 @@ export default function Login() {
         resetForm();
         navigate("/home");
       } catch (error) {
-        console.error(error.message);
-        alert("Failed to login. Please try again.");
+        alert("Failed to login!! Please try again.");
+        throw new Error(error.message);
       }
     },
   });

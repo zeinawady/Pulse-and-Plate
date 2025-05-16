@@ -4,13 +4,10 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { updateUserInfo } from '../../api/UsersAPI';
+import { updateUserInfo, deleteUser } from '../../api/UsersAPI';
 import { useUser } from '../../UserContext';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spinner from 'react-bootstrap/Spinner';
 import './UserProfile.css';
-import {deleteUser} from '../../api/UsersAPI';
 
 export default function UserAccount() {
     const token = localStorage.getItem('token');
@@ -19,56 +16,101 @@ export default function UserAccount() {
 
     const handleDeleteAccount = async () => {
         try {
-                const response = await deleteUser(currentUser._id);
-                if (response) {
-                    navigate('/login');
-                    alert('User deleted successfully!');
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('token');
-                    setUser(null);
-                }
-            } catch (error) {
-                alert(error.message || 'Something went wrong');
+            const response = await deleteUser(currentUser._id);
+            if (response) {
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                setUser(null);
+                alert('User deleted successfully!');
+                navigate('/login');
             }
-    }
+        } catch (error) {
+            alert(error.message || 'Something went wrong');
+        }
+    };
 
     const formik = useFormik({
         initialValues: {
             name: currentUser.name || '',
             oldPassword: '',
             newPassword: '',
-            confirmPassword: ''
+            confirmPassword: '',
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Name is required'),
             oldPassword: Yup.string(),
-            newPassword: Yup.string().min(6, 'Must be at least 6 characters'),
-            confirmPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+            newPassword: Yup.string()
+                .min(6, 'Must be at least 6 characters')
+                .when('oldPassword', {
+                    is: (val) => val && val.length > 0,
+                    then: (schema) => schema.required('New password is required when old password is provided'),
+                }),
+            confirmPassword: Yup.string().when('newPassword', {
+                is: (val) => val && val.length > 0,
+                then: (schema) =>
+                    schema
+                        .required('Please confirm your new password')
+                        .oneOf([Yup.ref('newPassword')], 'Passwords must match'),
+            }),
         }),
-        onSubmit: async (values, { setSubmitting }) => {
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
-                const payload = { name: values.name };
-                if (values.oldPassword && values.newPassword) {
-                    payload.password = values.newPassword;
+
+                const nameChanged = values.name !== currentUser.name;
+                const passwordChanged = values.oldPassword && currentUser.password;
+
+                if (!nameChanged && !passwordChanged) {
+                    alert('No changes detected.');
+                    setSubmitting(false);
+                    resetForm({
+                        values: {
+                            name: currentUser.name,
+                            oldPassword: '',
+                            newPassword: '',
+                            confirmPassword: ''
+                        }
+                    });
+                    return;
                 }
+
+                const payload = {};
+                if (nameChanged) payload.name = values.name;
+                if (passwordChanged) payload.password = values.newPassword;
+
+
+                // const payload = { name: values.name };
+                // if (values.oldPassword && values.newPassword) {
+                //     payload.oldPassword = values.oldPassword;
+                //     payload.password = values.newPassword;
+                // }
 
                 const updated = await updateUserInfo(payload, token);
                 alert('User updated successfully!');
                 localStorage.setItem('user', JSON.stringify(updated));
                 localStorage.setItem('token', updated.token);
-                setUser(updated); 
+                setUser(updated);
+                resetForm({
+                    values: {
+                        name: updated.name,
+                        oldPassword: '',
+                        newPassword: '',
+                        confirmPassword: ''
+                    }
+                });
+
+
             } catch (error) {
                 alert(error.message || 'Something went wrong');
             } finally {
                 setSubmitting(false);
             }
-        }
+        },
     });
 
     return (
         <div className="d-flex justify-content-center align-items-center bg-secondary main-container">
             <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-7">
-                <h1 className='text-center mb-4'>Your Profile</h1>
+                <h1 className="text-center mb-4">Your Profile</h1>
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group as={Row} className="mb-3" controlId="formEmail">
                         <Form.Label column sm={3}>Email</Form.Label>
@@ -85,6 +127,7 @@ export default function UserAccount() {
                                 name="name"
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
                                 isInvalid={formik.touched.name && formik.errors.name}
                             />
                             <Form.Control.Feedback type="invalid">
@@ -100,6 +143,7 @@ export default function UserAccount() {
                                 type="password"
                                 name="oldPassword"
                                 value={formik.values.oldPassword}
+                                onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
                             />
                         </Col>
@@ -113,6 +157,7 @@ export default function UserAccount() {
                                 name="newPassword"
                                 value={formik.values.newPassword}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
                                 isInvalid={formik.touched.newPassword && formik.errors.newPassword}
                             />
                             <Form.Control.Feedback type="invalid">
@@ -129,6 +174,7 @@ export default function UserAccount() {
                                 name="confirmPassword"
                                 value={formik.values.confirmPassword}
                                 onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
                                 isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}
                             />
                             <Form.Control.Feedback type="invalid">
@@ -140,13 +186,14 @@ export default function UserAccount() {
                     <Form.Group as={Row}>
                         <Col sm={{ span: 9, offset: 3 }}>
                             <Button type="submit" disabled={formik.isSubmitting}>
-                                {formik.isSubmitting ? 'Updating!!' : 'Update My Info'}
+                                {formik.isSubmitting ? 'Updating...' : 'Update My Info'}
                             </Button>
                         </Col>
                     </Form.Group>
+
                     <Form.Group as={Row}>
                         <Col sm={{ span: 9, offset: 3 }}>
-                            <Button onClick={handleDeleteAccount}  className='mt-2'>
+                            <Button onClick={handleDeleteAccount} className="mt-2" variant="danger">
                                 Delete Your Account
                             </Button>
                         </Col>

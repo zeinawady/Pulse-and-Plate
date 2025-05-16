@@ -23,19 +23,23 @@ export async function registerUser(userData) {
 
 // Login user
 export async function loginUser(userData) {
-    const response = await fetch(`${URL}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-    });
-    const data = await response.json();
-    console.log(data);
-
-    if (!response.ok) {
-        throw new Error(data.error || 'Failed to login user');
+    try {
+        const response = await fetch(`${URL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData),
+        });
+        const data = await response.json();
+        console.log(data);
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to login user');
+        }
+        return data;
+    } catch (error){
+        throw new Error(error.message);
     }
 
-    return data;
 }
 
 // Fetch all users 
@@ -99,7 +103,7 @@ export async function updateUserInfo(payload, token) {
         if (!response.ok) {
             throw new Error(data.message || 'Failed to update user info');
         }
-
+        console.log(data);
         return data;
     } catch (error) {
         console.error('Error updating user info:', error);
