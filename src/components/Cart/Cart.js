@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Cart.css";
-
-
-
+import PaymentModal from "../PaymentPage/PaymentModal";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  // Fetch cart items from backend on mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-  
+
     axios
       .get("http://localhost:3050/api/addorder/myorders", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         setCartItems(res.data.cart || []);
@@ -27,9 +25,7 @@ export default function Cart() {
         setLoading(false);
       });
   }, []);
-  
 
-  // Update quantity on backend
   const updateQuantity = (itemId, newQuantity) => {
     const token = localStorage.getItem("token");
     return axios
@@ -43,9 +39,7 @@ export default function Cart() {
         alert("Failed to update quantity");
       });
   };
-  
 
-  // Increase quantity handler
   const increaseQuantity = (itemId) => {
     setCartItems((prev) =>
       prev.map((item) => {
@@ -59,7 +53,6 @@ export default function Cart() {
     );
   };
 
-  // Decrease quantity handler
   const decreaseQuantity = (itemId) => {
     setCartItems((prev) =>
       prev.map((item) => {
@@ -74,8 +67,8 @@ export default function Cart() {
   };
 
   const handleRemoveItem = (itemId) => {
-    const token = localStorage.getItem("token"); // or wherever you store the token
-  
+    const token = localStorage.getItem("token");
+
     axios
       .delete(`http://localhost:3050/api/addorder/cart/${itemId}`, {
         headers: {
@@ -90,8 +83,12 @@ export default function Cart() {
         alert("Failed to remove item");
       });
   };
-  
-  // Calculate total price
+
+  const clearCart = () => {
+    setCartItems([]); // clear state
+    // Optionally send request to server to clear user's cart if needed
+  };
+
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -163,12 +160,21 @@ export default function Cart() {
             <h3>Total: {totalPrice.toFixed(2)} EGP</h3>
             <button
               className="checkout-btn"
-              onClick={() => alert("Checkout not implemented yet")}
+              onClick={() => setShowPaymentModal(true)}
             >
               Proceed to Checkout
             </button>
           </div>
         </>
+      )}
+
+      {showPaymentModal && (
+        <PaymentModal
+          onClose={() => setShowPaymentModal(false)}
+          total={totalPrice}
+          cartItems={cartItems}
+          onClearCart={clearCart} // ✅ pass function here
+        />
       )}
     </div>
   );
