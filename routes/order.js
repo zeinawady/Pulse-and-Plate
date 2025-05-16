@@ -40,7 +40,9 @@ router.get("/item/name/:name", async (req, res) => {
 router.post("/", auth, async (req, res) => {
 
   const { itemname, quantity } = req.body;
-  const userId = req.user._id; // Use `.userId` from the decoded token
+
+  // Use `.userId` from the decoded token
+  const userId = req.user.userId;
 
   if (!itemname) {
     return res.status(400).json({ message: "Item name is required." });
@@ -98,7 +100,7 @@ router.post("/", auth, async (req, res) => {
 
 router.get("/myorders", auth, async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id }).populate("item");
+    const orders = await Order.find({ user: req.user.userId }).populate("item");
     const cart = orders.map((order) => ({
       _id: order._id,
       name: order.item.name,
@@ -121,7 +123,7 @@ router.put("/cart/:id", auth, async (req, res) => {
   }
 
   try {
-    const order = await Order.findOne({ _id: req.params.id, user: req.user._id });
+    const order = await Order.findOne({ _id: req.params.id, user: req.user.userId });
     if (!order) return res.status(404).json({ message: "Order not found" });
 
     order.quantity = quantity;
@@ -137,7 +139,7 @@ router.delete("/cart/:id", auth, async (req, res) => {
   const orderId = req.params.id;
 
   try {
-    const order = await Order.findOne({ _id: orderId, user: req.user._id }).populate("item");
+    const order = await Order.findOne({ _id: orderId, user: req.user.userId }).populate("item");
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -148,7 +150,7 @@ router.delete("/cart/:id", auth, async (req, res) => {
     await item.save();
 
     // Remove order ID from user's ordersList
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.userId);
     if (user) {
       user.ordersList = user.ordersList.filter((id) => id.toString() !== orderId);
       await user.save();
@@ -166,7 +168,7 @@ router.delete("/cart/:id", auth, async (req, res) => {
 
 router.delete("/clearcart", auth, async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.userId;
 
     // Get all orders for this user
     const orders = await Order.find({ user: userId });
