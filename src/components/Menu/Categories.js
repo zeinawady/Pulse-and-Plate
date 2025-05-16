@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(0);
   const [loading, setLoading] = useState(true);
   const mealsRef = useRef(null);
 
