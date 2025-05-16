@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ProductInfo.css';
@@ -12,7 +12,7 @@ const ProductInfo = () => {
     return <div className="product-info-container">No product available.</div>;
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -21,27 +21,46 @@ const ProductInfo = () => {
       return;
     }
 
-    axios
-      .post(
-        "http://localhost:3050/api/addorder",
-        { itemname: product.name, quantity: 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(() => {
-        alert("Item added to cart!");
-      })
-      .catch((err) => {
-        console.error("Add to cart error:", err.response?.data || err.message);
-        if (err.response?.status === 401) {
-          alert("Session expired. Please log in again.");
-          navigate("/login");
-        } else {
-          alert(
-            "Failed to add item to cart:\n" +
-            (err.response?.data?.message || err.message)
-          );
-        }
+    try {
+      // Fetch the current cart items
+      const { data } = await axios.get("http://localhost:3050/api/addorder/myorders", {
+        headers: { Authorization: `Bearer ${token}` },
       });
+
+      const cart = data.cart || [];
+
+      // Check if this product is already in the cart
+      const existingItem = cart.find(item => item.name === product.name);
+
+      if (existingItem) {
+        // If it exists, increase the quantity by 1
+        await axios.put(
+          `http://localhost:3050/api/addorder/cart/${existingItem._id}`,
+          { quantity: existingItem.quantity + 1 },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } else {
+        // If it doesn't exist, add it as a new item with quantity 1
+        await axios.post(
+          "http://localhost:3050/api/addorder",
+          { itemname: product.name, quantity: 1 },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
+
+      alert("Item added to cart!");
+    } catch (err) {
+      console.error("Add to cart error:", err.response?.data || err.message);
+
+      if (err.response?.status === 401) {
+        alert("Session expired. Please log in again.");
+        navigate("/login");
+      } else {
+        alert(
+          "Failed to add item to cart:\n" + (err.response?.data?.message || err.message)
+        );
+      }
+    }
   };
 
   return (
