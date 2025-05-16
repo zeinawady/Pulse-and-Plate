@@ -74,21 +74,16 @@ git clone https://github.com/basmala-ayman/Pulse-and-Plate.git
  2. Install dependencies for both frontend and backend:
 
  ```bash
- cd client
-npm install
-cd ../server
-npm install
+npm install -y
 ```
 
 3. Start the application:
  - In one terminal (for frontend):
  ```bash
- cd client
  npm start
  ```
  - In another terminal (for backend):
  ```bash
- cd server
  node server.js
  ```
 
