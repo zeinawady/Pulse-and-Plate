@@ -1,5 +1,3 @@
-//this file will having all functions that will be treated with the product and with integerating the urls with the function logic in the same place
-//rather than define another controller foldre and it will be having only the code implementation logic only and the route having the urls only 
 /*
 - add a product 
 - delete a product 
@@ -15,7 +13,7 @@ const Menu = require("../models/Menu");
 const auth = require("../middleware/auth")
 const authRole = require("../middleware/authorize");
 
-//first lets handle the delete product logic function 
+
 route.delete("/:productName", auth, authRole("admin"), async (req, res) => {
     const productname = req.params.productName;
 
@@ -147,7 +145,7 @@ route.get("/list", async (req, res) => {
                 name: p.name,
                 photo: p.photo,
                 price: p.price,
-                quantity: p.quantity,
+                quantity: p.availableCounter,
             }))
         }));
 
