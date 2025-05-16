@@ -12,12 +12,21 @@ const ProductInfo = () => {
     return <div className="product-info-container">No product available.</div>;
   }
 
+    console.log("Product:", product);
+    console.log("AvailableCounter:", product.quantity);
+  const availability = (product.quantity && product.quantity > 0) ? "In Stock" : "Out of Stock";
+
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
       alert("You must be logged in to add items to the cart.");
       navigate("/login");
+      return;
+    }
+
+    if (availability === "Out of Stock") {
+      alert("Sorry, this product is out of stock.");
       return;
     }
 
@@ -74,8 +83,8 @@ const ProductInfo = () => {
           <p className="product-info__description">{`Details about ${product.name}. This is a sample description.`}</p>
           <div className="product-info__availability">
             Availability:
-            <span className={`product-info__availability-status ${product.availability === 'In Stock' ? 'product-info__availability-status--in-stock' : 'product-info__availability-status--out-of-stock'}`}>
-              {product.availability}
+            <span className={`product-info__availability-status ${availability === 'In Stock' ? 'product-info__availability-status--in-stock' : 'product-info__availability-status--out-of-stock'}`}>
+              {availability}
             </span>
           </div>
           <div className="product-info__price-section">
@@ -89,7 +98,11 @@ const ProductInfo = () => {
               </span>
             )}
           </div>
-          <button className="product-info__add-to-cart-btn" onClick={handleAddToCart}>
+          <button
+            className="product-info__add-to-cart-btn"
+            onClick={handleAddToCart}
+            disabled={availability === "Out of Stock"} // تعطيل الزر لو نفدت الكمية
+          >
             Add to Cart
           </button>
         </div>
