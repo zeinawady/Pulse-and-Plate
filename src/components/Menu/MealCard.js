@@ -1,122 +1,161 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./MealCard.css";
+.meal-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+  margin: 1rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  box-shadow: var(--shadow-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-align: center;
+  word-wrap: break-word;
+}
 
-export default function MealCard({ meal }) {
-  const [isFavorited, setIsFavorited] = useState(false);
-  const navigate = useNavigate();
+.meal-image-container {
+  position: relative;
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
 
-  const toggleFavorite = () => {
-    setIsFavorited(!isFavorited);
-  };
+.meal-image {
+  width: 100%;
+  height: 9rem;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  transition: transform 0.3s ease;
+  display: block;
+  user-select: none;
+}
 
- const handleAddToCart = async () => {
-  const token = localStorage.getItem("token");
+.meal-image:hover,
+.meal-image:focus {
+  transform: scale(1.06);
+  outline: 2px solid var(--secondary-color);
+}
 
-  if (!token) {
-    alert("You must be logged in to add items to the cart.");
-    navigate("/login");
-    return;
-  }
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
 
-  try {
-    // أولًا نجلب السلة الحالية
-    const { data } = await axios.get("http://localhost:3050/api/addorder/myorders", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+.meal-card:hover .overlay,
+.meal-card:focus-within .overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 
-    const cart = data.cart || [];
-    // Just check if the item is added before
-    const existingItem = cart.find(item => item.name === meal.name);
+.overlay .view-details {
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  padding: clamp(0.4rem, 1vw, 0.75rem) clamp(0.75rem, 2.5vw, 1.2rem);
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  min-width: 75px;
+  max-width: 90%;
+  text-align: center;
+}
 
-    if (existingItem) {
-      //if it's just update the quantity
-      await axios.put(
-        `http://localhost:3050/api/addorder/cart/${existingItem._id}`,
-        { quantity: existingItem.quantity + 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    } else {
-      // and if not add it 
-      await axios.post(
-        "http://localhost:3050/api/addorder",
-        {
-          itemname: meal.name,
-          quantity: 1,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    }
+.overlay .view-details:hover,
+.overlay .view-details:focus {
+  background-color: var(--primary-color);
+  transform: scale(1.05);
+  outline: 2px solid #fff;
+}
 
-    alert("Item added to cart!");
-  } catch (err) {
-    console.error("Add to cart error:", err.response?.data || err.message);
+.fav-icon {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  cursor: pointer;
+  color: #ccc;
+  transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
 
-    if (err.response?.status === 401) {
-      alert("Session expired. Please log in again.");
-      navigate("/login");
-    } else {
-      alert(
-        "Failed to add item to cart:\n" + (err.response?.data?.message || err.message)
-      );
-    }
-  }
-};
+.fav-icon:hover,
+.fav-icon:focus {
+  transform: scale(1.3);
+  color: #ff6347;
+  box-shadow: var(--shadow-icon);
+  outline: none;
+}
 
-  const handleViewDetails = () => {
-    navigate('/product-info', { state: { product: meal } });
-  };
+.fav-icon.favorited {
+  color: #e0245e;
+}
 
-  return (
-    <div className="meal-card card mx-auto my-3" style={{ maxWidth: "320px" }}>
-      <div className="meal-image-container position-relative">
-        <img
-          src={meal.photo || "https://via.placeholder.com/320x180"}
-          alt={meal.name}
-          className="meal-image card-img-top"
-          style={{ height: "180px", objectFit: "cover", borderRadius: "10px" }}
-        />
-        <div className="overlay d-flex justify-content-center align-items-center">
-          <button
-            className="view-details btn btn-secondary"
-            onClick={handleViewDetails}
-          >
-            View Details
-          </button>
-        </div>
-        <div
-          className={`fav-icon position-absolute top-0 end-0 p-2 ${
-            isFavorited ? "favorited" : ""
-          }`}
-          onClick={toggleFavorite}
-          style={{ cursor: "pointer", fontSize: "1.5rem" }}
-        >
-          {isFavorited ? "❤️" : "🤍"}
-        </div>
-      </div>
+.fav-icon.favorited:hover,
+.fav-icon.favorited:focus {
+  color: #c0392b;
+  box-shadow: var(--shadow-icon-active);
+}
 
-      <div className="card-body d-flex flex-column">
-        <h4
-          className="meal-name card-title"
-          style={{ color: "var(--primary-color)", textTransform: "capitalize" }}
-        >
-          {meal.name || "Unknown Item"}
-        </h4>
-        <h2
-          className="meal-price"
-          style={{ color: "var(--secondary-color)", fontWeight: "700" }}
-        >
-          {(meal.price || 0).toFixed(2)} EGP
-        </h2>
-        <button
-          className="add-to-cart btn btn-primary mt-auto"
-          onClick={handleAddToCart}
-        >
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  );
+.add-to-cart {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  border-radius: 0.5rem;
+  margin-top: auto;
+  cursor: pointer;
+  box-shadow: var(--shadow-hover);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  user-select: none;
+}
+
+.add-to-cart:hover,
+.add-to-cart:focus {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
+  outline: 2px solid #fff;
+}
+
+.meal-name {
+  margin: 1rem 0 0.5rem;
+  font-size: clamp(1.15rem, 3vw, 1.3rem);
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: capitalize;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.meal-price {
+  font-size: clamp(1.35rem, 4vw, 1.6rem);
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: 0.03em;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
