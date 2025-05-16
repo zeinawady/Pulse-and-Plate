@@ -12,10 +12,11 @@ const express = require("express")
 const route = express.Router()
 const Item = require("../models/item")
 const Menu = require("../models/Menu");
+const auth = require("../middleware/auth")
+const authRole = require("../middleware/authorize");
 
 //first lets handle the delete product logic function 
-
-route.delete("/:productName", async (req, res) => {
+route.delete("/:productName", auth, authRole("admin"), async (req, res) => {
     const productname = req.params.productName;
 
     if (!productname) {
@@ -51,8 +52,7 @@ route.delete("/:productName", async (req, res) => {
     res.status(200).json({ message: `Product "${productname}" deleted successfully.` });
 });
 
-
-route.post("/add-menu", async (req, res) => {
+route.post("/add-menu", auth, authRole("admin"), async (req, res) => {
     try {
         const newMenu = new Menu({
             title: "Pulse and Plate Menu",
@@ -66,10 +66,9 @@ route.post("/add-menu", async (req, res) => {
     }
 });
 
-
-route.post("/add-item", async (req, res) => {
+route.post("/add-item", auth, authRole("admin"), async (req, res) => {
     try {
-        const { name, price, image, description, calories, category } = req.body;
+        const { name, description, calories, price, category, quantity, image } = req.body;
 
         // Basic validation
         if (!name || !price || !image || !category) {
@@ -78,20 +77,24 @@ route.post("/add-item", async (req, res) => {
 
         // Check if product already exists
         const existingProduct = await Item.findOne({ name });
-
         if (existingProduct) {
             return res.status(409).json({ message: "Product already added" });
         }
 
-        // Create new item
-        const newItem = new Item({
+        // Create new item with optional quantity
+        const newItemData = {
             name,
             photo: image,
             price,
             description,
             calories,
-            category
-        });
+            category,
+        };
+        if (quantity !== undefined && quantity !== null) {
+            newItemData.quantity = quantity;
+        }
+
+        const newItem = new Item(newItemData);
 
         await newItem.save();
 
@@ -106,13 +109,12 @@ route.post("/add-item", async (req, res) => {
 
         if (!categoryFound) {
             // إذا لم تكن الفئة موجودة، نضيفها
-
             if (!category || typeof category !== "string" || category.trim() === "") {
                 return res.status(400).json({ message: "Category title cannot be empty when creating a new category." });
             }
             categoryFound = {
-                title: category.trim(), // Use trimmed category
-                items: [newItem._id]
+                title: category.trim(),
+                items: [newItem._id],
             };
             menu.categories.push(categoryFound);
         } else {
@@ -124,14 +126,12 @@ route.post("/add-item", async (req, res) => {
 
         res.status(201).json({
             message: "Product added successfully and categorized",
-            data: newItem
+            data: newItem,
         });
-
     } catch (error) {
         res.status(500).json({ message: "Error adding item", error: error.message });
     }
 });
-
 
 route.get("/list", async (req, res) => {
 
@@ -160,13 +160,10 @@ route.get("/list", async (req, res) => {
     }
 });
 
-
-
-route.put("/update/:productName", async (req, res) => {
+route.put("/update/:productName", auth, authRole("admin"), async (req, res) => {
     try {
         const oldProductName = req.params.productName;
         const updates = req.body;
-
 
         const oldProduct = await Item.findOne({ name: oldProductName });
         if (!oldProduct) {
@@ -228,7 +225,6 @@ route.put("/update/:productName", async (req, res) => {
         return res.status(500).json({ message: "Error updating product", error: error.message });
     }
 });
-
 
 //to can use this route file in the server.js file
 module.exports = route;

@@ -6,7 +6,6 @@ const auth = require('../middleware/auth');
 
 const JWT_SECRET = "your_jwt_secret";
 
-// Utility to generate JWT
 const generateToken = (user) => {
   return jwt.sign(
     {
@@ -19,7 +18,6 @@ const generateToken = (user) => {
   );
 };
 
-// Register a new user
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, role = "user" } = req.body;
@@ -47,7 +45,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login a user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -69,7 +66,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get all users (unprotected, could be protected if needed)
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({});
@@ -79,15 +75,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.delete('/:userID', async (req, res) => {
+router.delete('/:userID', auth, async (req, res) => {
 
   const userID = req.params.userID;
   if (!userID) {
     return res.status(400).json({ message: "User ID parameter is required." });
   }
 
+  if (req.user.userId !== userID) {
+    return res.status(403).json({ message: "You are not authorized to delete this user." });
+  }
+
   const deletedUser = await User.findByIdAndDelete(userID);
-  // const deletedUser = await User.fi
   if (!deletedUser) {
     return res.status(404).json({ message: `User with ID "${userID}" not found.` });
   }

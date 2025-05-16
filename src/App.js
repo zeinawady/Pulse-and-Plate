@@ -16,22 +16,19 @@ import ProductInfo from "./components/ProductInfo/ProductInfo";
 import PaymentPage from "./components/PaymentPage/PaymentPage";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Cart from "./components/Cart/Cart";
+import AddMeal from "./components/AddMeal/AddMeal";
 
 function App() {
   return (
     <UserProvider>
       <div>
         <Header />
-
-        {/* <Home/> */}
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
-          {/* <Route path="/contactus" element={<ContactUs />} /> */}
           <Route path="/category" element={<Menu />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<SignUp />} />
@@ -41,6 +38,7 @@ function App() {
 
           <Route path="/PaymentPage" element={<PaymentPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/add-meal" element={<AddMeal />} />
         </Routes>
 
         <Footer />

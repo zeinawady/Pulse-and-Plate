@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.3",
     "morgan": "^1.10.0",
+    "prettier": "^3.5.3",
     "reacharts": "^0.4.5",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.9",

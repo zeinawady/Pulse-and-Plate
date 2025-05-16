@@ -55,7 +55,6 @@ export default function UserAccount() {
         }),
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
-
                 const nameChanged = values.name !== currentUser.name;
                 const passwordChanged = values.oldPassword && currentUser.password;
 
@@ -77,13 +76,6 @@ export default function UserAccount() {
                 if (nameChanged) payload.name = values.name;
                 if (passwordChanged) payload.password = values.newPassword;
 
-
-                // const payload = { name: values.name };
-                // if (values.oldPassword && values.newPassword) {
-                //     payload.oldPassword = values.oldPassword;
-                //     payload.password = values.newPassword;
-                // }
-
                 const updated = await updateUserInfo(payload, token);
                 alert('User updated successfully!');
                 localStorage.setItem('user', JSON.stringify(updated));
@@ -97,7 +89,6 @@ export default function UserAccount() {
                         confirmPassword: ''
                     }
                 });
-
 
             } catch (error) {
                 alert(error.message || 'Something went wrong');

@@ -1,0 +1,16 @@
+.add-meal-container {
+    margin-top: var(--section-margin);
+    margin-bottom: var(--section-margin);
+    min-height: 100vh;
+    height: auto;
+    padding-top: var(--sections-padding);
+    padding-bottom: var(--sections-padding);
+}
+.add-meal-container h1{
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.add-meal-container button{
+    
+}

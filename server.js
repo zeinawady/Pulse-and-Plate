@@ -27,7 +27,10 @@ const JWT_SECRET = "your_jwt_secret"
 const app = express()
 app.use(cors()); // Enable CORS if using a frontend like React
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+
 
 
 
