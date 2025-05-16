@@ -3,8 +3,12 @@ import "./About.css";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+<<<<<<< HEAD
+import {Link} from 'react-router-dom';
+=======
 import { Link } from "react-router-dom";
 
+>>>>>>> a3f598baa7e2868f1948e14da891f465cbe92f14
 export default function About() {
   return (
     <div className="about">
