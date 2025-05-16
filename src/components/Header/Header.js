@@ -44,11 +44,13 @@ export default function Header() {
                         <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
                         <Nav.Link as={NavLink} to="/menu">Menu</Nav.Link>
                         <Nav.Link as={NavLink} to="/about">About</Nav.Link>
-                        <Nav.Link as={NavLink} to="/contactus">Contact Us</Nav.Link>
+                        <Nav.Link as={NavLink} to="/contact-us">Contact Us</Nav.Link>
                     </Nav>
 
                     <div className="icons d-flex align-items-center gap-3">
-                        <FontAwesomeIcon icon={faCartShopping} size="lg" />
+                        <Link to="/Cart">
+              <FontAwesomeIcon icon="cart-shopping" />
+            </Link>{" "}
 
                         <Dropdown align="end">
                             <Dropdown.Toggle variant="success" id="dropdown-user">

@@ -1,0 +1,107 @@
+.not-found-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 110vh;
+    padding: 20px;
+    background-color: var(--secondary-light-color, #FDFAE0);
+    text-align: center;
+    font-family: var(--font-family, sans-serif);
+    box-sizing: border-box;
+}
+
+.not-found-content {
+    max-width: 600px;
+    width: 100%;
+}
+
+.not-found-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+    max-height: 250px;
+}
+
+.not-found-title {
+    font-size: 2.2rem;
+    color: var(--text-color, #333333);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.not-found-text {
+    font-size: 1rem;
+    color: var(--text-color, #555555);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.not-found-button {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: var(--secondary-color, #ef9025);
+    /* Using brand's secondary color (orange) */
+    border: none;
+    border-radius: 25px;
+    /* Pill shape */
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.not-found-button:hover {
+    background-color: #d87e1f;
+    /* Darker shade of secondary-color */
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .not-found-title {
+        font-size: 1.8rem;
+    }
+
+    .not-found-text {
+        font-size: 0.95rem;
+    }
+
+    .not-found-button {
+        padding: 10px 25px;
+        font-size: 0.95rem;
+    }
+
+    .not-found-image {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .not-found-page-container {
+        min-height: calc(100vh - var(--header-height, 60px));
+        /* Adjust if header is smaller on mobile */
+    }
+
+    .not-found-title {
+        font-size: 1.5rem;
+    }
+
+    .not-found-text {
+        font-size: 0.9rem;
+    }
+
+    .not-found-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        width: 80%;
+        max-width: 250px;
+    }
+
+    .not-found-image {
+        max-height: 150px;
+        margin-bottom: 20px;
+    }
+}

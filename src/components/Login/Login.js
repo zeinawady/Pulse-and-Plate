@@ -28,22 +28,22 @@ export default function Login() {
       try {
         const res = await loginUser(values);
         alert("Login successful!");
-        
+
         localStorage.setItem("user", JSON.stringify(res.user));
         localStorage.setItem("token", res.token);
-        setUser(res.user); 
+        setUser(res.user);
 
         resetForm();
         navigate("/home");
       } catch (error) {
-        console.error(error.message);
-        alert("Failed to login. Please try again.");
+        alert("Failed to login!! Please try again.");
+        throw new Error(error.message);
       }
     },
   });
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
+    <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 my-4">
       <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5">
         <h2>Login</h2>
         <form onSubmit={formik.handleSubmit}>

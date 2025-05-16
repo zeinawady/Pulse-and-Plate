@@ -15,7 +15,7 @@ const cors = require('cors');
 const userRoutes = require('./routes/user')
 // console.log("Registering Product routes at /api/product");
 const Product = require('./routes/product');
-
+const orders = require('./routes/order');
 // const adminRoutes = require('./routes/admin')
 
 
@@ -27,7 +27,10 @@ const JWT_SECRET = "your_jwt_secret"
 const app = express()
 app.use(cors()); // Enable CORS if using a frontend like React
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '30mb' }));
+app.use(express.urlencoded({ extended: true, limit: '30mb' }));
+
+
 
 
 
@@ -56,6 +59,8 @@ console.log("connected to the mongo atlas server is failed ");
 // app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/product', Product);
+app.use('/api/addorder', orders);
+
 
 
 // app.use('/api/admin', adminRoutes);

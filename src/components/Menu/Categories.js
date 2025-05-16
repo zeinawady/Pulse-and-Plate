@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import MealCard from "./MealCard";
 import "./Categories.css";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function Categories({ addToCart }) {
+export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(0);
+  const [loading, setLoading] = useState(true);
   const mealsRef = useRef(null);
 
   useEffect(() => {
@@ -17,26 +19,24 @@ export default function Categories({ addToCart }) {
           response.data.menu &&
           Array.isArray(response.data.menu)
         ) {
-          // Filter categories to include only "Salads", "Grilled", and "Wraps"
           const filteredCategories = response.data.menu.filter((cat) =>
             ["Salads", "Grilled", "Wraps"].includes(cat.category)
           );
 
-          // Format categories to match the desired structure
           const formattedCategories = filteredCategories.map((cat) => ({
             title: cat.category,
             meals: cat.items,
           }));
 
           setCategories(formattedCategories);
-          console.log("Filtered and Formatted Categories:", formattedCategories);
         } else {
           console.error("Invalid data format received:", response.data);
         }
       })
       .catch((error) => {
         console.error("There was an error while fetching the menu: ", error);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const handleCategoryClick = (index) => {
@@ -51,15 +51,17 @@ export default function Categories({ addToCart }) {
   };
 
   return (
-    <div className="categories-container">
-      <div className="categories">
-        {categories.length === 0 ? (
-          <div>Loading categories...</div>
+    <div className="categories-container container">
+      <div className="categories row justify-content-center mb-4">
+        {loading ? (
+          <div className="text-center">Loading categories...</div>
+        ) : categories.length === 0 ? (
+          <div className="text-center">No categories found.</div>
         ) : (
           categories.map((category, index) => (
             <div
               key={index}
-              className={`category-title ${
+              className={`col-6 col-sm-4 col-md-3 text-center category-title ${
                 activeCategory === index ? "active" : ""
               }`}
               onClick={() => handleCategoryClick(index)}
@@ -80,9 +82,12 @@ export default function Categories({ addToCart }) {
             ))}
           </div>
         ) : (
-          <div>No meals available for this category.</div>
+          !loading && (
+            <div className="text-center">No meals available for this category.</div>
+          )
         )}
       </div>
     </div>
   );
 }
+

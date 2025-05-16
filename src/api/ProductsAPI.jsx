@@ -1,69 +1,92 @@
-const URL = 'http://localhost:3050/api/product';
+const URL = "http://localhost:3050/api/product";
+
+const getToken =_=> localStorage.getItem("token");
+
+const getAuthHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${getToken()}`,
+});
 
 // Fetch all users (likely admin-only)
 export async function fetchAllProducts() {
-    try {
-        const response = await fetch(`${URL}/list`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+  try {
+    const response = await fetch(`${URL}/list`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to fetch products');
-        }
-       // console.log(response.json());
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        throw error;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch products");
     }
+    // console.log(response.json());
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
 }
 
-// Delete user (admin only) — pass token for auth
-// export async function deleteUser(userId) {
-//     try {
-//         const response = await fetch(`${URL}/${userId}`, {
-//             method: 'DELETE',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//         });
+export async function addNewMeal(meal) {
+  try {
+    const response = await fetch(`${URL}/add-item`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(meal),
+    });
 
-//         if (!response.ok) {
-//             const errorData = await response.json();
-//             throw new Error(errorData.message || 'Failed to delete user');
-//         }
+    const data = await response.json();
 
-//         return await response.json();
-//     } catch (error) {
-//         console.error('Error deleting user:', error);
-//         throw error;
-//     }
-// }
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to add a new meal!!");
+    }
 
-// export async function updateUserInfo(payload, token) {
-//     try {
-//         const response = await fetch(`${URL}/profile`, {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${token}`,
-//             },
-//             body: JSON.stringify(payload),
-//         });
+    return data;
+  } catch (error) {
+    console.error("Error adding a new meal:", error);
+    throw error;
+  }
+}
 
-//         const data = await response.json();
+export async function deleteMeal(mealName) {
+  try {
+    const response = await fetch(`${URL}/${encodeURIComponent(mealName)}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
 
-//         if (!response.ok) {
-//             throw new Error(data.message || 'Failed to update user info');
-//         }
+    const data = await response.json();
 
-//         return data;
-//     } catch (error) {
-//         console.error('Error updating user info:', error);
-//         throw error;
-//     }
-// }
+    if (!response.ok) {
+      throw new Error(data.message || `Failed to delete ${mealName}!!`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error(`Error deleting ${mealName}:`, error);
+    throw error;
+  }
+}
+
+export async function updateMeal(meal, mealName) {
+  try {
+    const response = await fetch(`${URL}/update/${mealName}`, {
+      method: "PUT",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(meal),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || `Failed to update meal!!`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error(`Error updating meal:`, error);
+    throw error;
+  }
+}

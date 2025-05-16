@@ -6,9 +6,9 @@ import Categories from '../Categories/Categories';
 export default function Home() {
     return (
         <div>
-            {/* <Main />
+            <Main />
             <WhyChooseUs />
-            <Categories /> */}
+            <Categories />
         </div>
     );
 }

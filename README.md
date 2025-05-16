@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -16,28 +16,28 @@
 
 ---
 
-## 🌟 Features
+## Features
 
-### 👥 User Features
+### User Features
 - User registration & login (JWT authentication)
 - Profile management (name, email)
 - View categorized healthy meals
 - Add meals to cart
 - Place orders
 
-### 🛠️ Admin Features
+### Admin Features
 - Dashboard with controls for managing meals and orders
 - CRUD operations for user, categories, items
 - View and manage user orders
 
-### 🧩 General Features
+### General Features
 - Fully responsive design (mobile/tablet/desktop)
 - Form handling with validation (Formik)
 - Navigation with React Router
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - React
@@ -56,13 +56,13 @@
 
 ---
 
-# 🚀 Getting Started
+# Getting Started
 
-### ✅ Prerequisites
+### Prerequisites
 - Node.js & npm
 - MongoDB installed and running
 
-### 🔧 Installation
+### Installation
 
 1. Clone the repository:
  ```bash
@@ -92,26 +92,26 @@ npm install
  node server.js
  ```
 
- ## 🧪 Available Scripts
+ ## Available Scripts
  #### Inside package.json, you can find:
  - `npm start`: Runs the app in development mode
  - `node server.js`: Starts the backend server  
 
- ## 🧭 Usage Guide (For Users)
+ ## Usage Guide (For Users)
  1. Register an account using your name, email, and password
  2. log in to access your profile and meal options
  3. Browse meals by category and add items to your cart
  4. Submit orders 
  5. Update profile info(name and password)
 
- ## 🛠️ API and Database
+ ## API and Database
  ### MongoDB Collections
  - Users: Stores user info and encrypted passwords
  - Menus: Has multiple categories
  - Categories: Contains many items
  - Items: Individual meal entries
 
- ## 👥 Contributors
+ ## Contributors
  - [Basmala Ayman](https://github.com/basmala-ayman)
  - [Ruba Abdelsalam](https://github.com/Rrr3rrr2004)
  - [Habiba Adel](https://github.com/Habiba-Adel)

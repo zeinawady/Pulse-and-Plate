@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Cart.css";
-
-
-
+import PaymentModal from "../PaymentModal/PaymentModal";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  // Fetch cart items from backend on mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-  
+
     axios
       .get("http://localhost:3050/api/addorder/myorders", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         setCartItems(res.data.cart || []);
@@ -27,9 +25,7 @@ export default function Cart() {
         setLoading(false);
       });
   }, []);
-  
 
-  // Update quantity on backend
   const updateQuantity = (itemId, newQuantity) => {
     const token = localStorage.getItem("token");
     return axios
@@ -43,9 +39,7 @@ export default function Cart() {
         alert("Failed to update quantity");
       });
   };
-  
 
-  // Increase quantity handler
   const increaseQuantity = (itemId) => {
     setCartItems((prev) =>
       prev.map((item) => {
@@ -59,7 +53,6 @@ export default function Cart() {
     );
   };
 
-  // Decrease quantity handler
   const decreaseQuantity = (itemId) => {
     setCartItems((prev) =>
       prev.map((item) => {
@@ -74,8 +67,8 @@ export default function Cart() {
   };
 
   const handleRemoveItem = (itemId) => {
-    const token = localStorage.getItem("token"); // or wherever you store the token
-  
+    const token = localStorage.getItem("token");
+
     axios
       .delete(`http://localhost:3050/api/addorder/cart/${itemId}`, {
         headers: {
@@ -90,8 +83,11 @@ export default function Cart() {
         alert("Failed to remove item");
       });
   };
-  
-  // Calculate total price
+
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -107,30 +103,30 @@ export default function Cart() {
     );
 
   return (
-    <div className="cart-container">
+    <div className="cart-container container">
       <h2 className="cart-header">Your Cart</h2>
 
       {cartItems.length === 0 ? (
         <p className="cart-empty">Your cart is empty.</p>
       ) : (
         <>
-          <div className="cart-items">
+          <div className="cart-items row gy-4">
             {cartItems.map((item) => (
-              <div className="cart-item" key={item._id}>
-                <img
-                  src={item.photo}
-                  alt={item.name}
-                  className="cart-item-image"
-                />
-                <div className="cart-item-details">
+              <div className="cart-item col-12 col-md-10 offset-md-1 d-flex flex-column flex-md-row" key={item._id}>
+                <div className="cart-item-image-wrapper flex-shrink-0 me-md-4 mb-3 mb-md-0" style={{ maxWidth: "300px" }}>
+                  <img
+                    src={item.photo}
+                    alt={item.name}
+                    className="cart-item-image"
+                  />
+                </div>
+                <div className="cart-item-details flex-grow-1 d-flex flex-column justify-content-center">
                   <h3 className="cart-item-name">{item.name}</h3>
-                  <p className="cart-item-price">
-                    {item.price.toFixed(2)} EGP
-                  </p>
+                  <p className="cart-item-price">{item.price.toFixed(2)} EGP</p>
 
                   <div className="cart-item-quantity">
                     <button
-                      className="quantity-btn"
+                      className="btn btn-primary-custom"
                       onClick={() => decreaseQuantity(item._id)}
                       disabled={item.quantity <= 1}
                     >
@@ -138,18 +134,18 @@ export default function Cart() {
                     </button>
                     <span>{item.quantity}</span>
                     <button
-                      className="quantity-btn"
+                      className="btn btn-primary-custom"
                       onClick={() => increaseQuantity(item._id)}
                     >
                       +
                     </button>
                   </div>
 
-                  <p className="cart-item-total">
+                  <p className="cart-item-total mt-3">
                     Total: {(item.price * item.quantity).toFixed(2)} EGP
                   </p>
                   <button
-                    className="remove-btn"
+                    className="btn btn-danger-custom mt-2 align-self-start"
                     onClick={() => handleRemoveItem(item._id)}
                   >
                     Remove
@@ -162,13 +158,22 @@ export default function Cart() {
           <div className="cart-summary">
             <h3>Total: {totalPrice.toFixed(2)} EGP</h3>
             <button
-              className="checkout-btn"
-              onClick={() => alert("Checkout not implemented yet")}
+              className="btn btn-primary-custom"
+              onClick={() => setShowPaymentModal(true)}
             >
               Proceed to Checkout
             </button>
           </div>
         </>
+      )}
+
+      {showPaymentModal && (
+        <PaymentModal
+          onClose={() => setShowPaymentModal(false)}
+          total={totalPrice}
+          cartItems={cartItems}
+          onClearCart={clearCart}
+        />
       )}
     </div>
   );
