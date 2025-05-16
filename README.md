@@ -1,51 +1,122 @@
-Pulse-And-Plate
-Because every heartbeat deserves to last longer…
+# 🥗 Pulse & Plate
 
-✨ A healthy life isn't just a goal — it's a gift.
+**Pulse & Plate** is a full-stack web application for ordering healthy meals. It provides a fully responsive, easy-to-navigate interface for users to explore meals, manage orders, and maintain healthy eating habits. The platform also includes admin functionalities for menu and order management.
 
-Welcome to Pulse-And-Plate, not just another food delivery service, but a heartfelt journey toward a better, brighter, more vibrant you.
+---
 
-We’re here to walk with you — not just to your doorstep with healthy meals, but toward a future where you wake up with energy, walk without pain, run with joy, and smile without fear.
+## 📋 Table of Contents
 
-No more unhealthy habits.
-No more silent suffering.
-No more “I wish I had...”
-Just fresh starts. Clean plates. And full hearts.
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Available Scripts](#available-scripts)
+- [Usage Guide](#usage-guide-for-users)
+- [API and Database](#api-and-database)
+- [Contributors](#contributors)
 
-This is your moment. Your future. Your choice.
+---
 
-🌞 Run under the morning sun without losing your breath.
-🍃 Breathe deeply, knowing your body is finally in harmony.
-👶 Live long enough to hold your grandchildren, and tell them stories of strength.
-🤖 Stand tall and healthy, ready to witness the world evolve — AI and all — while you're still thriving.
+## 🌟 Features
 
-💚 Our Mission
-"To turn every bite into a step toward a stronger, longer, happier life."
+### 👥 User Features
+- User registration & login (JWT authentication)
+- Profile management (name, email)
+- View categorized healthy meals
+- Add meals to cart
+- Place orders
 
-At Pulse-And-Plate, we believe food isn't just something you eat.
-It’s healing.
-It’s power.
-It’s a hug from the inside.
+### 🛠️ Admin Features
+- Dashboard with controls for managing meals and orders
+- CRUD operations for user, categories, items
+- View and manage user orders
 
-We’re not just delivering meals.
-We’re delivering second chances. 🍽️❤️
+### 🧩 General Features
+- Fully responsive design (mobile/tablet/desktop)
+- Form handling with validation (Formik)
+- Navigation with React Router
 
-🤝 Contribute with Heart
-This isn’t just lines of code.
-It’s love. It’s late nights thinking about how to help someone we’ll never meet... live longer.
-So if you believe in what we’re building — come join us.
-Open an issue. Share an idea. Or just stop by and say hi.
+---
 
-Let’s make something beautiful, together.
+## ⚙️ Tech Stack
 
-🧠 Final Thought
-"Take care of your body. It's the only place you have to live." – Jim Rohn
+### Frontend
+- React
+- React Router
+- Bootstrap
+- CSS
+- Formik (form handling)
 
-And while you're at it...
-Take care of your heart. Your peace. Your future.
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- dotenv 
+- Bcrypt (password hashing)
 
-We built Pulse-And-Plate with purpose.
-We shaped it with passion.
-And we share it — with love.
+---
 
-From us, to you. ❤️
+# 🚀 Getting Started
+
+### ✅ Prerequisites
+- Node.js & npm
+- MongoDB installed and running
+
+### 🔧 Installation
+
+1. Clone the repository:
+ ```bash
+git clone https://github.com/basmala-ayman/Pulse-and-Plate.git
+
+ cd Pulse-and-Plate
+ ```
+
+ 2. Install dependencies for both frontend and backend:
+
+ ```bash
+ cd client
+npm install
+cd ../server
+npm install
+```
+
+3. Start the application:
+ - In one terminal (for frontend):
+ ```bash
+ cd client
+ npm start
+ ```
+ - In another terminal (for backend):
+ ```bash
+ cd server
+ node server.js
+ ```
+
+ ## 🧪 Available Scripts
+ #### Inside package.json, you can find:
+ - `npm start`: Runs the app in development mode
+ - `node server.js`: Starts the backend server  
+
+ ## 🧭 Usage Guide (For Users)
+ 1. Register an account using your name, email, and password
+ 2. log in to access your profile and meal options
+ 3. Browse meals by category and add items to your cart
+ 4. Submit orders 
+ 5. Update profile info(name and password)
+
+ ## 🛠️ API and Database
+ ### MongoDB Collections
+ - Users: Stores user info and encrypted passwords
+ - Menus: Has multiple categories
+ - Categories: Contains many items
+ - Items: Individual meal entries
+
+ ## 👥 Contributors
+ - [Basmala Ayman](https://github.com/basmala-ayman)
+ - [Ruba Abdelsalam](https://github.com/Rrr3rrr2004)
+ - [Habiba Adel](https://github.com/Habiba-Adel)
+ - [Zeina Wady](https://github.com/zeinawady)
+ - [Hafsa Tarek](https://github.com/HafsaTarek)
+ - [Esraa Ahmed](https://github.com/2004esra)
+
+
