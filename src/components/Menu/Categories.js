@@ -92,7 +92,6 @@
 // }
 
 
-
 import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
@@ -105,6 +104,7 @@ export default function Categories() {
   const [loading, setLoading] = useState(true);
   const mealsRef = useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();
+
 
   useEffect(() => {
     axios
@@ -125,16 +125,6 @@ export default function Categories() {
           }));
 
           setCategories(formattedCategories);
-
-          const categoryParam = searchParams.get("category");
-          if (categoryParam) {
-            const index = formattedCategories.findIndex(
-              (cat) => cat.title.toLowerCase() === categoryParam.toLowerCase()
-            );
-            if (index !== -1) {
-              setActiveCategory(index);
-            }
-          }
         } else {
           console.error("Invalid data format received:", response.data);
         }
@@ -143,11 +133,23 @@ export default function Categories() {
         console.error("There was an error while fetching the menu: ", error);
       })
       .finally(() => setLoading(false));
-  }, [searchParams]);
+  }, []); 
+
+
+  useEffect(() => {
+    const categoryParam = searchParams.get("category");
+    if (categories.length > 0 && categoryParam) {
+      const index = categories.findIndex(
+        (cat) => cat.title.toLowerCase() === categoryParam.toLowerCase()
+      );
+      if (index !== -1) {
+        setActiveCategory(index);
+      }
+    }
+  }, [categories, searchParams]);
 
   const handleCategoryClick = (index) => {
     setActiveCategory(index);
-
     setSearchParams({ category: categories[index].title.toLowerCase() });
 
     if (mealsRef.current) {
