@@ -173,7 +173,7 @@ export default function Cart() {
           onClose={() => setShowPaymentModal(false)}
           total={totalPrice}
           cartItems={cartItems}
-          onClearCart={clearCart} // ✅ pass function here
+          onClearCart={clearCart} 
         />
       )}
     </div>
