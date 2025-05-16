@@ -99,7 +99,7 @@ export default function UserAccount() {
     });
 
     return (
-        <div className="d-flex justify-content-center align-items-center bg-secondary main-container">
+        <div className="d-flex justify-content-center align-items-center bg-secondary form-container">
             <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-7">
                 <h1 className="text-center mb-4">Your Profile</h1>
                 <Form onSubmit={formik.handleSubmit}>

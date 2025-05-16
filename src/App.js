@@ -13,12 +13,12 @@ import SignUp from "./components/SignUp/SignUp";
 import UserProfile from "./components/UserProfile/UserProfile";
 import { UserProvider } from "./UserContext";
 import ProductInfo from "./components/ProductInfo/ProductInfo";
-import PaymentPage from "./components/PaymentPage/PaymentPage";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Cart from "./components/Cart/Cart";
 import AddMeal from "./components/AddMeal/AddMeal";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import DeleteMeal from "./components/DeleteMeal/DeleteMeal";
+import UpdateMeal from "./components/UpdateMeal/UpdateMeal";
 
 function App() {
   return (
@@ -38,11 +38,11 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/product-info" element={<ProductInfo />} />
 
-          <Route path="/PaymentPage" element={<PaymentPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-meal" element={<AddMeal />} />
           <Route path="/PageNotFound" element={<PageNotFound />} />
           <Route path="/delete-meal" element={<DeleteMeal />} />
+          <Route path="/update-meal" element={<UpdateMeal />} />
 
         </Routes>
 

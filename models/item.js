@@ -63,7 +63,7 @@ const itemSchema = new schema({
     type: Number,
     required: false
   },
-  category: { // Added category field
+  category: {
     type: String,
     required: true
   },

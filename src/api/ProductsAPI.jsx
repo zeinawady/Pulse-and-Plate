@@ -1,6 +1,6 @@
 const URL = "http://localhost:3050/api/product";
 
-const getToken = (_) => localStorage.getItem("token");
+const getToken =_=> localStorage.getItem("token");
 
 const getAuthHeaders = () => ({
   "Content-Type": "application/json",
@@ -70,9 +70,9 @@ export async function deleteMeal(mealName) {
   }
 }
 
-export async function updateMeal(meal) {
+export async function updateMeal(meal, mealName) {
   try {
-    const response = await fetch(`${URL}/update/${meal.name}`, {
+    const response = await fetch(`${URL}/update/${mealName}`, {
       method: "PUT",
       headers: getAuthHeaders(),
       body: JSON.stringify(meal),

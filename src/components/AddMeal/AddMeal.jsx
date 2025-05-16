@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
@@ -11,7 +11,7 @@ import { addNewMeal } from "../../api/ProductsAPI"; // adjust import path
 export default function AddMeal() {
   const { Formik } = formik;
   const [submitError, setSubmitError] = useState(null);
-
+  const fileInputRef = useRef();
   const validationSchema = yup.object().shape({
     mealImage: yup
       .mixed()
@@ -44,7 +44,7 @@ export default function AddMeal() {
       .nullable(),
   });
 
-  // Helper to convert image file to base64 string
+  // to convert image file to base64 string
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -77,11 +77,11 @@ export default function AddMeal() {
 
               const meal = {
                 name: values.mealName,
+                image: base64Image,
                 description: values.description,
                 calories: Number(values.calories),
-                price: Number(values.price),
                 category: values.category,
-                image: base64Image,
+                price: Number(values.price),
                 ...(values.quantity
                   ? { quantity: Number(values.quantity) }
                   : {}),
@@ -224,6 +224,7 @@ export default function AddMeal() {
                       event.currentTarget.files[0]
                     );
                   }}
+                  ref={fileInputRef}
                   onBlur={formik.handleBlur}
                   isInvalid={
                     formik.touched.mealImage && formik.errors.mealImage

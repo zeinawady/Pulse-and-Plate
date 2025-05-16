@@ -2,7 +2,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { fetchAllProducts, deleteMeal } from "../../api/ProductsAPI";
-import "./DeleteMeal.css";
 
 export default function DeleteMeal() {
   const [mealNames, setMealNames] = useState([]);
@@ -28,8 +27,6 @@ export default function DeleteMeal() {
   };
 
   const handleDelete = async () => {
-    if (!selectedMealName) return alert("Please select a meal to delete.");
-
     const confirm = window.confirm(
       `Are you sure you want to delete "${selectedMealName}"?`
     );
@@ -47,8 +44,8 @@ export default function DeleteMeal() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-secondary main-container">
-      <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-7 delete-content">
+    <div className="d-flex justify-content-center align-items-center bg-secondary form-container">
+      <div className="bg-white p-5 rounded shadow col-11 col-sm-10 col-md-8 col-lg-6 col-xl-7">
         <h1 className="text-center mb-4">Delete Meal</h1>
 
         <Form.Group className="mb-3">
@@ -70,6 +67,7 @@ export default function DeleteMeal() {
           <Button
             onClick={handleDelete}
             disabled={!selectedMealName}
+            style={{ backgroundColor: "var(--primary-color)" }}
           >
             Delete
           </Button>

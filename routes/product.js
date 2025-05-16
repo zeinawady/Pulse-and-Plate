@@ -66,7 +66,7 @@ route.post("/add-menu", auth, authRole("admin"), async (req, res) => {
 
 route.post("/add-item", auth, authRole("admin"), async (req, res) => {
     try {
-        const { name, description, calories, price, category, quantity, image } = req.body;
+        const { name, image, description, calories, category, price, quantity  } = req.body;
 
         // Basic validation
         if (!name || !price || !image || !category) {
@@ -83,10 +83,10 @@ route.post("/add-item", auth, authRole("admin"), async (req, res) => {
         const newItemData = {
             name,
             photo: image,
-            price,
             description,
             calories,
             category,
+            price,
         };
         if (quantity !== undefined && quantity !== null) {
             newItemData.quantity = quantity;
@@ -144,6 +144,9 @@ route.get("/list", async (req, res) => {
             items: category.items.map(p => ({
                 name: p.name,
                 photo: p.photo,
+                description: p.description,
+                calories: p.calories,
+                category: p.category,
                 price: p.price,
                 quantity: p.availableCounter,
             }))
