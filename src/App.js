@@ -17,6 +17,7 @@ import PaymentPage from "./components/PaymentPage/PaymentPage";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Cart from "./components/Cart/Cart";
 import AddMeal from "./components/AddMeal/AddMeal";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
 
 function App() {
   return (
@@ -38,7 +39,12 @@ function App() {
 
           <Route path="/PaymentPage" element={<PaymentPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+<<<<<<< HEAD
           <Route path="/add-meal" element={<AddMeal />} />
+=======
+          <Route path="/PageNotFound" element={<PageNotFound />} />
+
+>>>>>>> 21f902a39f1779059d5dd796c60d3a6fbaee565a
         </Routes>
 
         <Footer />
