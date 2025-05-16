@@ -1,5 +1,11 @@
 const express = require('express');
 const router = express.Router();
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User authentication and profile management
+ */
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Order = require('../models/order');
@@ -19,6 +25,36 @@ const generateToken = (user) => {
     { expiresIn: '30d' }
   );
 };
+
+/**
+ * @swagger
+ * /api/users/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Registration failed
+ */
 
 router.post('/register', async (req, res) => {
   try {
@@ -47,6 +83,34 @@ router.post('/register', async (req, res) => {
   }
 });
 
+
+/**
+ * @swagger
+ * /api/users/login:
+ *   post:
+ *     summary: Login a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Invalid credentials
+ */
+
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -69,6 +133,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
+
+
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({});
@@ -77,6 +143,30 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: "Failed to fetch users", error: error.message });
   }
 });
+
+/**
+ * @swagger
+ * /api/users/{userID}:
+ *   delete:
+ *     summary: Delete a user by ID (user must be authenticated)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: userID
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to delete
+ *     responses:
+ *       200:
+ *         description: User deleted
+ *       403:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
 
 router.delete('/:userID', auth, async (req, res) => {
 
@@ -97,7 +187,37 @@ router.delete('/:userID', auth, async (req, res) => {
   res.status(200).json({ message: `User with ID "${userID}" deleted successfully.` });
 });
 
-// Update user profile (authenticated user)
+
+/**
+ * @swagger
+ * /api/users/profile:
+ *   put:
+ *     summary: Update authenticated user profile
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               oldPassword:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Profile updated
+ *       404:
+ *         description: User not found
+ */
+
 router.put('/profile', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
@@ -128,6 +248,22 @@ router.put('/profile', auth, async (req, res) => {
     res.status(500).json({ error: 'Profile update failed', details: err.message });
   }
 });
+
+
+/**
+ * @swagger
+ * /api/users/orders:
+ *   get:
+ *     summary: Get logged-in user's orders
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of orders
+ *       500:
+ *         description: Internal error
+ */
 
 router.get("/orders", auth, async (req, res) => {
   try {
