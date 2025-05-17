@@ -12,6 +12,7 @@ export default function AddMeal() {
   const { Formik } = formik;
   const [submitError, setSubmitError] = useState(null);
   const fileInputRef = useRef();
+
   const validationSchema = yup.object().shape({
     mealImage: yup
       .mixed()
@@ -88,7 +89,6 @@ export default function AddMeal() {
               };
 
               await addNewMeal(meal);
-
               alert("Meal added successfully!");
               resetForm();
             } catch (error) {

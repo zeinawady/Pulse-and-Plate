@@ -66,7 +66,7 @@ export default function Header() {
                         </Link>{" "}
 
                         <Dropdown align="end">
-                            <Dropdown.Toggle variant="success" id="dropdown-user">
+                            <Dropdown.Toggle className='head-drop'  variant="success" id="dropdown-user">
                                 {user?.name ? user.name.split(" ")[0] : "Login | Register"}
                             </Dropdown.Toggle>
 

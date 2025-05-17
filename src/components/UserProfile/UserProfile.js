@@ -4,9 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { updateUserInfo, deleteUser } from '../../api/UsersAPI';
+import { updateUserInfo } from '../../api/UsersAPI';
 import { useUser } from '../../UserContext';
-import { useNavigate } from 'react-router-dom';
 import './UserProfile.css';
 
 export default function UserAccount() {

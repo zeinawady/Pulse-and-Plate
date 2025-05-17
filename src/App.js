@@ -69,7 +69,6 @@ function App() {
           <Route path="add-meal" element={<AddMeal />} />
           <Route path="update-meal" element={<UpdateMeal />} />
           <Route path="delete-meal" element={<DeleteMeal />} />
-          <Route path="adminAccount" element={<UserProfile />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

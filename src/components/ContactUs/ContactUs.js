@@ -79,7 +79,7 @@ const ContactUs = () => {
                     </div>
 
                     {/* Image Section */}
-                    <div className="image-section">
+                    <div className="image-section d-none d-lg-block">
                         <img
                             src=".\images\contact-image-01.png"
                             alt="Contact Us"

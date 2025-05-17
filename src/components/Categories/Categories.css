@@ -4,7 +4,7 @@
 }
 @media (max-width: 767px) {
   .categories-home {
-    padding-block: 0;
+    /* padding-block: 0; */
   }
   
 }

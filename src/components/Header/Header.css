@@ -89,6 +89,9 @@
             text-align: center;
         }
     }
+    .dropdown ,.head-drop{
+        width: 100%;
+    }
 }
 
 @media (max-width: 441px) {
