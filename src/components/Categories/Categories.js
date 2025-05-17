@@ -19,7 +19,7 @@ export default function Categories() {
   ];
 
   return (
-    <div className="container categories">
+    <div className="container categories-home">
       <div className="text-center mb-5 categories-header">
         <h2>Our Categories</h2>
       </div>
@@ -29,7 +29,7 @@ export default function Categories() {
             <div className="category-card ">
               
                 <img src={cat.image} alt={cat.name} className="category-image img-fluid" />
-              <h3 className="category-title fs-4">{cat.name}</h3>
+              <h3 className="category-title-main fs-4">{cat.name}</h3>
               <Link to={`/menu?category=${cat.name.toLowerCase()}`} className='submit-btn text-decoration-none'>Go to {cat.name}
               </Link>
               </div>

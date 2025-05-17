@@ -34,6 +34,9 @@ color: var(--primary-color);
     color: var(--primary-color);
 }
 @media (max-width: 767px) {
+    footer {
+            text-align: center;
+    }
     .wrapper-footer{
        flex-direction: column;
     }

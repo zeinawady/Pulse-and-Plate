@@ -182,6 +182,14 @@
   color: #d32f2f;
 }
 
+@media (max-width: 768px) {
+  .cart-content .btn{
+    margin: auto !important;
+  }
+  .cart-summary{
+        text-align: center !important;
+  }
+}
 .cart-success {
   color: #2e7d32;
 }

@@ -185,7 +185,6 @@ router.delete('/:userID', auth, async (req, res) => {
   res.status(200).json({ message: `User with ID "${userID}" deleted successfully.` });
 });
 
-
 /**
  * @swagger
  * /api/users/profile:

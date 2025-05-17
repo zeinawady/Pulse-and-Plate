@@ -103,7 +103,7 @@ export default function Cart() {
     );
 
   return (
-    <div className="cart-container container">
+    <div className="cart-container container cart-content">
       <h2 className="cart-header">Your Cart</h2>
 
       {cartItems.length === 0 ? (

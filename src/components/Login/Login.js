@@ -35,7 +35,7 @@ export default function Login() {
 
         resetForm();
         if(res.user.role === "admin") {
-          navigate("/admin/");
+          navigate("/admin");
         }
         else {
           navigate("/home"); 
@@ -92,7 +92,7 @@ export default function Login() {
             to="/register"
             className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none mt-2"
           >
-            Sign Up
+            Register
           </Link>
         </form>
       </div>

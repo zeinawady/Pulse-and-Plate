@@ -9,7 +9,7 @@ export default function Footer() {
     return (
         <footer>
             <Container fluid="md">
-            <div className="wrapper-footer">
+            <div className="wrapper-footer gap-3">
                 <div className="info">
                     <h5>Pulse & Plate</h5>
                     <p>Healthy Food Specialties can be described as a company or service focusing on nutritious, high-quality food. </p>

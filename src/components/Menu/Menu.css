@@ -1,6 +1,6 @@
 /* General Styling for Menu */
 .menu-container {
-  padding: 40px;
+  padding-top: var(--sections-padding);
   background-color: var(--background-color);
   font-family: var(--font-family);
   max-width: 1200px;

@@ -1,6 +1,12 @@
 
-.categories {
+.categories-home {
   padding-block: var(--sections-padding);
+}
+@media (max-width: 767px) {
+  .categories-home {
+    padding-block: 0;
+  }
+  
 }
 
 .categories-header h2 {
@@ -44,7 +50,7 @@
   border-radius: 8px;
 }
 
-.category-title {
+.category-title-main {
   font-size: 1.25rem;
   margin: 15px 0;
   color: #333;
@@ -59,7 +65,3 @@
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
-
-/* .category-button:hover {
-  background-color: var(--secondary-color);
-} */

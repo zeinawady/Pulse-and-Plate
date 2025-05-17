@@ -121,33 +121,3 @@
   background-color: var(--primary-color);
   transform: scale(1.05);
 }
-
-/* @media (max-width: 768px) {
-  .meals-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-
-  .meal-card {
-    max-width: 180px;
-    padding: 12px;
-  }
-
-  .meal-name {
-    font-size: 1rem;
-  }
-
-  .meal-price {
-    font-size: 1.1rem;
-  }
-
-  .view-details {
-    max-width: 150px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .meals-grid {
-    grid-template-columns: 1fr;
-  }
-} */
