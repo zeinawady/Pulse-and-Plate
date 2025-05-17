@@ -77,7 +77,12 @@ git clone https://github.com/basmala-ayman/Pulse-and-Plate.git
 npm install -y
 ```
 
-3. Start the application:
+3. Create a file named `.env`and paste this line:
+   ```bash
+   MONGODB_URI=mongodb+srv://esraa:esraa@pulseandplasedb.veodylk.mongodb.net/pulseandplateDB?retryWrites=true&w=majority
+   ```
+   
+4. Start the application:
  - In one terminal (for frontend):
  ```bash
  npm start
