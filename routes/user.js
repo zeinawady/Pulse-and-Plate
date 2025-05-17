@@ -125,7 +125,7 @@ router.post('/login', async (req, res) => {
     const userObj = user.toObject();
     delete userObj.password;
     delete userObj.__v;
-    delete userObj.__id;
+   //  delete userObj._id;
 
     res.json({ token, user: userObj });
   } catch (err) {
@@ -226,7 +226,7 @@ router.put('/profile', auth, async (req, res) => {
     user.email = req.body.email || user.email;
 
     if (req.body.oldPassword && req.body.password) {
-      const matched = await user.password.comparePassword(req.body.password);
+      const matched = await user.comparePassword(req.body.oldPassword);
       if (!matched) {
         return res.status(400).json({ message: 'Old password is incorrect' });
       }

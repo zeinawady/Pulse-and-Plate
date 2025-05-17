@@ -40,7 +40,7 @@ export default function UserAccount() {
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
                 const nameChanged = values.name !== currentUser.name;
-                const passwordChanged = values.oldPassword && currentUser.password;
+                const passwordChanged = values.oldPassword && values.newPassword;
 
                 if (!nameChanged && !passwordChanged) {
                     alert('No changes detected.');
@@ -58,7 +58,10 @@ export default function UserAccount() {
 
                 const payload = {};
                 if (nameChanged) payload.name = values.name;
-                if (passwordChanged) payload.password = values.newPassword;
+                if (passwordChanged) {
+                    payload.password = values.newPassword;
+                    payload.oldPassword = values.oldPassword;
+                }
 
                 const updated = await updateUserInfo(payload, token);
                 alert('User updated successfully!');
