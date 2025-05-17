@@ -35,7 +35,7 @@ export default function Login() {
 
         resetForm();
         if(res.user.role === "admin") {
-          navigate("/admin");
+          navigate("/admin/dashboard");
         }
         else {
           navigate("/home"); 
